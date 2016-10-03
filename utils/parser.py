@@ -20,6 +20,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.gene
         'DDX11L1'
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.gene
+        'uc010nxq.1'
         '''
         if self._type == 'ref':
             return self._info[0]
@@ -31,6 +34,9 @@ class Info(object):
         '''
         Return isoform symbol.
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.isoform
+        'uc010nxq.1'
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.isoform
         'uc010nxq.1'
         '''
@@ -46,6 +52,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.chrom
         'chr1'
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.chrom
+        'chr1'
         '''
         if self._type == 'ref':
             return self._info[2]
@@ -57,6 +66,9 @@ class Info(object):
         '''
         Return strand.
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.strand
+        '+'
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.strand
         '+'
         '''
@@ -72,6 +84,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.tx_start
         11873
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.tx_start
+        11873
         '''
         if self._type == 'ref':
             return int(self._info[4])
@@ -83,6 +98,9 @@ class Info(object):
         '''
         Return transcript end.
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.tx_end
+        14409
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.tx_end
         14409
         '''
@@ -98,6 +116,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.total_length
         2536
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.total_length
+        2536
         '''
         return self.tx_end - self.tx_start
 
@@ -106,6 +127,9 @@ class Info(object):
         '''
         Return cds start.
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.cds_start
+        12189
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.cds_start
         12189
         '''
@@ -118,6 +142,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.cds_end
         13639
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.cds_end
+        13639
         '''
         return int(self._info[7])
 
@@ -126,6 +153,9 @@ class Info(object):
         '''
         Return exon number.
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.exon_num
+        3
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.exon_num
         3
         '''
@@ -141,6 +171,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.intron_num
         2
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.intron_num
+        2
         '''
         return self.exon_num - 1
 
@@ -149,6 +182,9 @@ class Info(object):
         '''
         Return exon starts
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.exon_starts
+        [11873, 12594, 13402]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.exon_starts
         [11873, 12594, 13402]
         '''
@@ -165,11 +201,14 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.exon_ends
         [12227, 12721, 14409]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.exon_ends
+        [12227, 12721, 14409]
         '''
         if self._type == 'ref':
             return [int(x) for x in self._info[10].split(',')[:-1]]
         else:
-            sizes = [int(x) for x in self._info[9].split(',')]
+            sizes = [int(x) for x in self._info[10].split(',')]
             return [start + size for start, size in zip(self.exon_starts, sizes)]
 
     @property
@@ -179,18 +218,24 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.exon_lengths
         [354, 127, 1007]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.exon_lengths
+        [354, 127, 1007]
         '''
         if self._type == 'ref':
             return [end - start for start, end in zip(self.exon_starts,
                                                       self.exon_ends)]
         else:
-            return [int(x) for x in self._info[9].split(',')]
+            return [int(x) for x in self._info[10].split(',')]
 
     @property
     def intron_starts(self):
         '''
         Return intron starts
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.intron_starts
+        [12227, 12721]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.intron_starts
         [12227, 12721]
         '''
@@ -203,6 +248,9 @@ class Info(object):
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
         >>> info.intron_ends
         [12594, 13402]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
+        >>> info.intron_ends
+        [12594, 13402]
         '''
         return self.exon_starts[1:]
 
@@ -211,6 +259,9 @@ class Info(object):
         '''
         Return intron lengths
         >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873', '14409', '12189', '13639', '3', '11873,12594,13402,', '12227,12721,14409,'])
+        >>> info.intron_lengths
+        [367, 681]
+        >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+', '12189', '13639', '0,0,0', '3', '354,127,1007', '0,721,1529'], type='bed')
         >>> info.intron_lengths
         [367, 681]
         '''

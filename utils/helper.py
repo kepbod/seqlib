@@ -2,6 +2,8 @@ import os
 import os.path
 import sys
 import contextlib
+import pysam
+import pybedtools
 
 
 def which(program):
@@ -23,7 +25,7 @@ def smart_write(filename=None):
     '''
     Smart open output file.
     '''
-    if filename:
+    if filename and filename != '-' and filename != 'stdout':
         fn = open(filename, 'w')
     else:
         fn = sys.stdout
@@ -48,3 +50,52 @@ def smart_open(filename=None):
     finally:
         if fn is not sys.stdin:
             fn.close()
+
+
+def check_option(n, msg):
+    '''
+    Check the number of options.
+    '''
+    if len(sys.argv) != n:
+        sys.exit(msg)
+
+
+def check_fasta(fa):
+    '''
+    Check fasta files.
+    http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#fasta-files
+    '''
+    if not os.path.isfile(fa):
+        sys.exit('No such file: %s!' % fa)
+    if not os.path.isfile(fa + '.fai'):
+        pysam.faidx(fa)
+    return pysam.FastaFile(fa)
+
+
+def check_bam(bam):
+    '''
+    Check bam files.
+    http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#sam-bam-files
+    '''
+    if not os.path.isfile(bam):
+        sys.exit('No such file: %s!' % bam)
+    if not os.path.isfile(bam + '.bai'):
+        pysam.index(bam)
+    return pysam.AlignmentFile(bam, 'rb')
+
+
+def check_bed(bed):
+    '''
+    Check bed files.
+    http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#tabix-files
+    '''
+    if not os.path.isfile(bed):
+        sys.exit('No such file: %s!' % bed)
+    if bed.endswith('.gz'):
+        if not os.path.isfile(bed + '.tbi'):
+            pysam.tabix_index(bed, preset='bed')
+        return pysam.TabixFile(bed)
+    else:
+        pybedtools.BedTool(bed).bgzip()
+        pysam.tabix_index(bed + '.gz', preset='bed')
+        return pysam.TabixFile(bed + '.gz')
