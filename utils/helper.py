@@ -92,10 +92,12 @@ def check_bed(bed):
     if not os.path.isfile(bed):
         sys.exit('No such file: %s!' % bed)
     if bed.endswith('.gz'):
-        if not os.path.isfile(bed + '.tbi'):
+        if not os.path.isfile(bed + '.tbi'):  # no index
             pysam.tabix_index(bed, preset='bed')
         return pysam.TabixFile(bed)
     else:
-        pybedtools.BedTool(bed).bgzip()
-        pysam.tabix_index(bed + '.gz', preset='bed')
+        if not os.path.isfile(bed + '.gz'):  # no compress
+            pybedtools.BedTool(bed).bgzip()
+        if not os.path.isfile(bed + '.gz.tbi'):  # no index
+            pysam.tabix_index(bed + '.gz', preset='bed')
         return pysam.TabixFile(bed + '.gz')
