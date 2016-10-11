@@ -1,5 +1,8 @@
 import sys
-from string import maketrans
+try:
+    from string import maketrans
+except ImportError:
+    maketrans = str.maketrans
 
 
 def dna_to_rna(fa, strand='+', tou=False):
