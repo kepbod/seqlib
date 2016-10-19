@@ -1,0 +1,2 @@
+script:
+  nosetests --with-doctest -v

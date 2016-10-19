@@ -1,3 +1,8 @@
+'''
+Functions and classes to fetch information
+'''
+
+
 import sys
 
 
@@ -290,5 +295,5 @@ class Annotation(object):
 
 
 if __name__ == '__main__':
-      import doctest
-      doctest.testmod()
+    import doctest
+    doctest.testmod()
