@@ -1,5 +1,6 @@
 docopt
 beautifulsoup4
+cython
 pandas
 pysam>=0.8.4
 pybedtools>=0.7.8
