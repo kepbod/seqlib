@@ -3,7 +3,7 @@ Testing parse.py
 '''
 
 import os
-from help_test import check_file
+from tests.help_test import check_file
 from utils.ngs import fetch_juncfile
 
 
