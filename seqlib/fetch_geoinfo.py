@@ -18,7 +18,7 @@ import urllib
 import tarfile
 from docopt import docopt
 from bs4 import BeautifulSoup
-from utils.helper import smart_write
+from helper import smart_write
 
 
 __author__ = 'Xiao-Ou Zhang (Xiaoou.Zhang@umassmed.edu)'
