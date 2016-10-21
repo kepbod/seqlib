@@ -14,15 +14,15 @@ Options:
 
 import sys
 import re
-import urllib
 import tarfile
+from six.moves.urllib.request import urlretrieve, urlopen
 from docopt import docopt
 from bs4 import BeautifulSoup
-from helper import smart_write
+from seqlib.path import smart_write
 
 
-__author__ = 'Xiao-Ou Zhang (Xiaoou.Zhang@umassmed.edu)'
-__version__ = 0.1
+__author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
+__version__ = '0.1'
 
 
 def main():
@@ -45,7 +45,7 @@ def main():
     info_xml_url += gse_num[:-3] + 'nnn/' + gse_num + '/miniml/'
     info_xml_url += info_xml_name + '.tgz'
     # store xml file
-    zipped_xml, _ = urllib.urlretrieve(info_xml_url)
+    zipped_xml, _ = urlretrieve(info_xml_url)
     # parse xml
     xml_file = tarfile.open(zipped_xml).extractfile(info_xml_name)
     info_xml = BeautifulSoup(xml_file, 'xml')
@@ -72,7 +72,7 @@ def main():
 
 def fetch_sra(sra_url):
     sra_info = []
-    sra_html = BeautifulSoup(urllib.urlopen(sra_url).read(), 'html.parser')
+    sra_html = BeautifulSoup(urlopen(sra_url).read(), 'html.parser')
     for row in sra_html.tbody.find_all('tr'):
         sra_num_info, read_info = row.find_all('td')[:2]
         sra_info.append('\t'.join([sra_num_info.string, read_info.string]))

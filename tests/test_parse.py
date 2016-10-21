@@ -4,7 +4,7 @@ Testing parse.py
 
 import os
 from tests.help_test import check_file
-from utils.ngs import fetch_juncfile
+from seqlib.ngs import fetch_juncfile
 
 
 def test_fetch_juncfile():

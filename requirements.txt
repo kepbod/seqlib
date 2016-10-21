@@ -1,5 +1,7 @@
+six
 docopt
 beautifulsoup4
+lxml
 cython
 pandas
 pysam>=0.8.4
