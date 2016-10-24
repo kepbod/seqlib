@@ -77,7 +77,8 @@ def fetch_juncfile(bam, dir=None, stranded=False):
             junc_id = '%s\t%d\t%d\t%s' % (read.reference_name, pos1, pos2,
                                           strand)
             junc_lst[junc_id] += 1
-    with open(os.path.join(dir, prefix + '_junc.bed'), 'w') as junc_f:
+    junc_path = os.path.join(dir, prefix + '_junc.bed')
+    with open(junc_path, 'w') as junc_f:
         for junc in junc_lst:
             chrom, pos1, pos2, strand = junc.split()
             pos1 = int(pos1)
@@ -89,6 +90,7 @@ def fetch_juncfile(bam, dir=None, stranded=False):
             junc_info += '\t%d\t%d\t0,0,0\t2\t10,10\t0,%d\n'
             junc_f.write(junc_info % (chrom, start, end, junc_lst[junc],
                                       strand, start, end, offset))
+    return junc_path
 
 
 if __name__ == '__main__':
