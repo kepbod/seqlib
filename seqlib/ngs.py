@@ -3,6 +3,7 @@ NGS relevant functions and classes
 '''
 
 import sys
+import os
 import os.path
 import re
 from collections import defaultdict
@@ -53,20 +54,27 @@ def check_bed(bed):
         return pysam.TabixFile(bed + '.gz')
 
 
-def fetch_juncfile(bam, dir=None, stranded=False):
+def fetch_juncfile(bam, url=False, dir=None, stranded=False):
     '''
     fetch junction reads to create a junc file
     '''
-    bamf = check_bam(bam)
+    if url:  # from remote server
+        bamf = pysam.AlignmentFile(bam, 'rb')
+    else:  # from local file
+        bamf = check_bam(bam)
     prefix = os.path.splitext(os.path.split(bam)[-1])[0]
     if not dir:
-        dir = os.path.dirname(os.path.abspath(bam))
+        if url:
+            dir = os.getcwd()
+        else:
+            dir = os.path.dirname(os.path.abspath(bam))
     else:
         if not os.path.isdir(dir):
             sys.exit('Your directory is wrong: %s' % dir)
     junc_lst = defaultdict(int)
-    for read in bamf.fetch():
-        if any(filter(lambda x: x[0] == 3, read.cigartuples)):
+    for read in bamf:
+        if read.cigartuples and any(filter(lambda x: x[0] == 3,
+                                           read.cigartuples)):
             npos = re.findall(r'N|D|I', read.cigarstring).index('N')
             pos1 = read.get_blocks()[npos][1]
             pos2 = read.get_blocks()[npos + 1][0]
