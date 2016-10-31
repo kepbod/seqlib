@@ -89,7 +89,7 @@ def fetch_juncfile(bam, url=False, dir=None, stranded=False):
                                           strand)
             junc_lst[junc_id] += 1
     junc_path = os.path.join(dir, prefix + '_junc.bed')
-    with tempfile.NamedTemporaryFile() as tmp:
+    with tempfile.NamedTemporaryFile(mode='w+') as tmp:
         for junc in junc_lst:
             chrom, pos1, pos2, strand = junc.split()
             pos1 = int(pos1)
