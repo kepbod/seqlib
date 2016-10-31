@@ -19,6 +19,7 @@ before_install:
 
 install:
   - conda install --yes python=$TRAVIS_PYTHON_VERSION pip nose
+  - conda install --yes --file conda_requirements.txt --channel bioconda
   - pip install -r requirements.txt
   - python setup.py install
 
