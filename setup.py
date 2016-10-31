@@ -33,6 +33,7 @@ setup(name='seqlib',
           'beautifulsoup4'
       ],
       scripts=[
-          'bin/fetch_geoinfo.py'
+          'bin/fetch_geoinfo.py',
+          'bin/extract_junc.py'
       ]
       )
