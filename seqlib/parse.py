@@ -2,8 +2,9 @@
 Functions and classes to fetch information
 '''
 
-
 import sys
+
+__author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
 
 class Info(object):

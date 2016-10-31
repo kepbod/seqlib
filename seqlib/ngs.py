@@ -7,8 +7,11 @@ import os
 import os.path
 import re
 from collections import defaultdict
+import tempfile
 import pysam
 import pybedtools
+
+__author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
 
 def check_fasta(fa):
@@ -86,7 +89,7 @@ def fetch_juncfile(bam, url=False, dir=None, stranded=False):
                                           strand)
             junc_lst[junc_id] += 1
     junc_path = os.path.join(dir, prefix + '_junc.bed')
-    with open(junc_path, 'w') as junc_f:
+    with tempfile.NamedTemporaryFile() as tmp:
         for junc in junc_lst:
             chrom, pos1, pos2, strand = junc.split()
             pos1 = int(pos1)
@@ -96,8 +99,11 @@ def fetch_juncfile(bam, url=False, dir=None, stranded=False):
             offset = pos2 - start
             junc_info = '%s\t%d\t%d\tjunc/%d\t0\t%s'
             junc_info += '\t%d\t%d\t0,0,0\t2\t10,10\t0,%d\n'
-            junc_f.write(junc_info % (chrom, start, end, junc_lst[junc],
-                                      strand, start, end, offset))
+            tmp.write(junc_info % (chrom, start, end, junc_lst[junc],
+                                   strand, start, end, offset))
+        tmp.seek(0)
+        sorted_junc_bed = pybedtools.BedTool(tmp.name).sort()
+        sorted_junc_bed.saveas(junc_path)
     return junc_path
 
 

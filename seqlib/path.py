@@ -7,6 +7,8 @@ import os.path
 import shutil
 import contextlib
 
+__author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
+
 
 def which(program):
     '''

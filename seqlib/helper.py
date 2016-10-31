@@ -4,6 +4,8 @@ Some help functions and classes
 
 import sys
 
+__author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
+
 
 def check_option(n, msg):
     '''

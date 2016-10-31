@@ -2,15 +2,14 @@
 # -*- coding: utf-8 -*-
 
 '''
-Usage: fetch_geoinfo [options] <GSE_NUM>
+Usage: fetch_geoinfo.py [options] <GSE_NUM>
 
 Options:
     -h --help         Show help message.
     --version         Show version.
-    -o output_file    Output file name (default: stdout).
+    -o output_file    Output file name [default: stdout].
     --add-url         Add URL information.
 '''
-
 
 import sys
 import re
@@ -19,10 +18,9 @@ from six.moves.urllib.request import urlretrieve, urlopen
 from docopt import docopt
 from bs4 import BeautifulSoup
 from seqlib.path import smart_write
-
+from seqlib.version import __version__
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-__version__ = '0.1'
 
 
 def main():
