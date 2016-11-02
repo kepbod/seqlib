@@ -57,7 +57,7 @@ def check_bed(bed):
         return pysam.TabixFile(bed + '.gz')
 
 
-def fetch_juncfile(bam, url=False, dir=None, stranded=False):
+def fetch_juncfile(bam, url=False, dir=None, stranded=False, min=0):
     '''
     fetch junction reads to create a junc file
     '''
@@ -91,6 +91,8 @@ def fetch_juncfile(bam, url=False, dir=None, stranded=False):
     junc_path = os.path.join(dir, prefix + '_junc.bed')
     with tempfile.NamedTemporaryFile(mode='w+') as tmp:
         for junc in junc_lst:
+            if junc_lst[junc] < min:
+                continue
             chrom, pos1, pos2, strand = junc.split()
             pos1 = int(pos1)
             pos2 = int(pos2)

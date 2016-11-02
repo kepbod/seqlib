@@ -76,6 +76,7 @@ def create_dir(dir):
             print('Warning: the directory %s is not empty!' % dir)
         shutil.rmtree(dir)
     os.mkdir(dir)
+    return os.path.abspath(dir)
 
 
 if __name__ == '__main__':

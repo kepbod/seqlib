@@ -17,3 +17,6 @@ def test_fetch_juncfile():
     junc = fetch_juncfile('data/junc.bam', stranded=True)
     check_file(junc, 'data/junc_stranded.bed')
     os.remove(junc)
+    junc = fetch_juncfile('data/junc.bam', min=5)
+    check_file(junc, 'data/junc_min.bed')
+    os.remove(junc)

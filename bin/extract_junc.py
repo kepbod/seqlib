@@ -7,9 +7,10 @@ Usage: extract_junc.py [options] <bam>
 Options:
     -h --help         Show help message.
     --version         Show version.
-    -o output_dir     Output file name [default: ./].
+    -o output_dir     Output file directory [default: ./].
     --url             Extract from remote url.
     --bb              Convert to BigWig.
+    --min-reads=min   Minimum junction reads [default: 0].
 '''
 
 import sys
@@ -19,7 +20,7 @@ import tempfile
 import pysam
 from docopt import docopt
 from seqlib.ngs import fetch_juncfile
-from seqlib.path import which
+from seqlib.path import which, check_dir
 from seqlib.version import __version__
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
@@ -32,12 +33,10 @@ def main():
     if options['-o'] == './':
         dir = os.getcwd()
     else:
-        if os.path.isdir(options['-o']):
-            dir = options['-o']
-        else:
-            sys.exit('No such dir: %s' % options['-o'])
+        dir = check_dir(options['-o'])
     # fetch junction bed file
-    junc_f = fetch_juncfile(options['<bam>'], url=options['--url'], dir=dir)
+    junc_f = fetch_juncfile(options['<bam>'], url=options['--url'], dir=dir,
+                            min=int(options['--min-reads']))
     # create junction bigbed file in case
     if options['--bb'] and which('bedToBigBed') is not None:
         prefix = os.path.splitext(os.path.split(options['<bam>'])[-1])[0]
