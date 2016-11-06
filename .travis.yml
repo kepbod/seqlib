@@ -18,9 +18,8 @@ before_install:
   - conda info -a
 
 install:
-  - conda install --yes python=$TRAVIS_PYTHON_VERSION pip nose
+  - conda install --yes python=$TRAVIS_PYTHON_VERSION pip nose coverage
   - conda install --yes --file conda_requirements.txt --channel bioconda
-  - pip install codecov
   - pip install -r requirements.txt
   - pip install .
 
@@ -28,4 +27,4 @@ script:
   - nosetests --with-doctest -v
 
 after_success:
-  - codecov
+  - bash <(curl -s https://codecov.io/bash)
