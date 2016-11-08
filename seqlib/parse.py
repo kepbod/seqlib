@@ -3,6 +3,7 @@ Functions and classes to fetch information
 '''
 
 import sys
+from six import Iterator
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
@@ -343,7 +344,7 @@ class Info(object):
                                                   self.intron_ends)]
 
 
-class Annotation(object):
+class Annotation(Iterator):
 
     def __init__(self, fname, type='ref'):
         self.fh = open(fname, 'r')
@@ -352,7 +353,7 @@ class Annotation(object):
     def __iter__(self):
         return self
 
-    def next(self):
+    def __next__(self):
         info = self.fh.readline()
         if info:
             return Info(info.split(), type=self.type)
