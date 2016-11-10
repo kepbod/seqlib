@@ -14,7 +14,7 @@ Options:
 import sys
 import re
 import tarfile
-from six.moves.urllib.request import urlretrieve, urlopen
+from future.moves.urllib.request import urlretrieve, urlopen
 from docopt import docopt
 from bs4 import BeautifulSoup
 from seqlib.path import smart_write

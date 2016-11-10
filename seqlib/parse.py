@@ -3,7 +3,7 @@ Functions and classes to fetch information
 '''
 
 import sys
-from six import Iterator
+from future.utils import implements_iterator
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
@@ -268,7 +268,8 @@ class Info(object):
             return [int(x) for x in self._info[10].split(',')[:-1]]
         else:
             sizes = [int(x) for x in self._info[10].split(',')]
-            return [start + size for start, size in zip(self.exon_starts, sizes)]
+            return [start + size for start, size in zip(self.exon_starts,
+                                                        sizes)]
 
     @property
     def exon_lengths(self):
@@ -344,7 +345,8 @@ class Info(object):
                                                   self.intron_ends)]
 
 
-class Annotation(Iterator):
+@implements_iterator
+class Annotation(object):
 
     def __init__(self, fname, type='ref'):
         self.fh = open(fname, 'r')
