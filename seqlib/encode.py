@@ -45,10 +45,18 @@ class SeqFile(Entry):
     def _parse_file_json(self):
         # experiment info
         self.exp = self.json['dataset']
-        replicate = self.json['replicate']
-        self.biological_replicate = replicate['biological_replicate_number']
-        self.technical_replicate = replicate['technical_replicate_number']
-        self.is_stranded = replicate['library']['strand_specificity']
+        try:
+            replicate = self.json['replicate']
+            biorep = 'biological_replicate_number'
+            tchrep = 'technical_replicate_number'
+            self.biological_replicate = replicate[biorep]
+            self.technical_replicate = replicate[tchrep]
+            self.is_stranded = replicate['library']['strand_specificity']
+        except KeyError:
+            replicate = self.json['technical_replicates'][0].split('_')
+            self.biological_replicate = replicate[0]
+            self.technical_replicate = replicate[1]
+            self.is_stranded = False
         # file info
         self.file_type = self.json['file_type']
         self.status = self.json['status']
