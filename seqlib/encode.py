@@ -126,6 +126,8 @@ class ProcessedFile(SeqFile):
     4400306818
     >>> str(f.assembly)
     'mm10'
+    >>> str(f.output_type)
+    'alignments'
     '''
     def __init__(self, fid, json_d=None):
         super(ProcessedFile, self).__init__(fid, json_d=json_d)
@@ -133,6 +135,7 @@ class ProcessedFile(SeqFile):
 
     def _parse_processedfile_json(self):
         self.assembly = self.json['assembly']
+        self.output_type = self.json['output_type']
 
 
 class Exp(Entry):
