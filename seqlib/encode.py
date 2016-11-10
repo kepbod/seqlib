@@ -62,7 +62,7 @@ class RawFile(SeqFile):
     '''
     ENCODE raw file entry.
     >>> f = RawFile('ENCFF037JQC')
-    >>> f.exp
+    >>> str(f.exp)
     '/experiments/ENCSR362AIZ/'
     >>> f.biological_replicate
     1
@@ -70,17 +70,17 @@ class RawFile(SeqFile):
     1
     >>> f.is_stranded
     False
-    >>> f.file_type
+    >>> str(f.file_type)
     'fastq'
-    >>> f.status
+    >>> str(f.status)
     'released'
-    >>> f.file_url
+    >>> str(f.file_url)
     'https://www.encodeproject.org/files/ENCFF037JQC/@@download/ENCFF037JQC.fastq.gz'
-    >>> f.file_md5
+    >>> str(f.file_md5)
     'e5f5ef9f88ef582526cf1a54023f5ad0'
     >>> f.file_size
     1925682263
-    >>> f.run_type
+    >>> str(f.run_type)
     'single-ended'
     >>> f.read_length
     101
@@ -98,7 +98,7 @@ class ProcessedFile(SeqFile):
     '''
     ENCODE processed file entry.
     >>> f = ProcessedFile('ENCFF281ENU')
-    >>> f.exp
+    >>> str(f.exp)
     '/experiments/ENCSR362AIZ/'
     >>> f.biological_replicate
     2
@@ -106,17 +106,17 @@ class ProcessedFile(SeqFile):
     1
     >>> f.is_stranded
     False
-    >>> f.file_type
+    >>> str(f.file_type)
     'bam'
-    >>> f.status
+    >>> str(f.status)
     'released'
-    >>> f.file_url
+    >>> str(f.file_url)
     'https://www.encodeproject.org/files/ENCFF281ENU/@@download/ENCFF281ENU.bam'
-    >>> f.file_md5
+    >>> str(f.file_md5)
     '9559d1c9df631fc7b5069a442e38ae16'
     >>> f.file_size
     4400306818
-    >>> f.assembly
+    >>> str(f.assembly)
     'mm10'
     '''
     def __init__(self, fid, json_d=None):
@@ -131,15 +131,15 @@ class Exp(Entry):
     '''
     ENCODE experiment entry
     >>> exp = Exp('ENCSR362AIZ')
-    >>> exp.accession
+    >>> str(exp.accession)
     'ENCSR362AIZ'
-    >>> exp.id
+    >>> str(exp.id)
     '/experiments/ENCSR362AIZ/'
-    >>> exp.url
+    >>> str(exp.url)
     'https://www.encodeproject.org/experiments/ENCSR362AIZ/'
-    >>> exp.description
+    >>> str(exp.description)
     'Total RNA-Seq on postnatal 0 day mouse forebrain'
-    >>> exp.assay
+    >>> str(exp.assay)
     'RNA-seq'
     >>> for f in exp.fetch_file(raw=True):
     ...     print(f.accession)
