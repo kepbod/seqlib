@@ -159,6 +159,30 @@ class Exp(Entry):
     ENCFF811VPO
     ENCFF281ENU
     ENCFF916AXO
+    >>> for f in exp.fetch_file(file_type=['bam', 'bigWig']):
+    ...     print(f.accession)
+    ENCFF428JNJ
+    ENCFF503VVW
+    ENCFF592ZRF
+    ENCFF112PJJ
+    ENCFF694GJR
+    ENCFF941BPF
+    ENCFF285HFJ
+    ENCFF738MJJ
+    ENCFF100LGI
+    ENCFF249QVN
+    ENCFF380XIS
+    ENCFF623UHM
+    ENCFF461GSJ
+    ENCFF010GFV
+    ENCFF047GZO
+    ENCFF811VPO
+    ENCFF281ENU
+    ENCFF916AXO
+    ENCFF190EHR
+    ENCFF564LUK
+    ENCFF372TAA
+    ENCFF326RPH
     '''
     def __init__(self, exp):
         entry_type = 'experiments'
@@ -182,7 +206,10 @@ class Exp(Entry):
                     yield RawFile(fid, json_d=f)
                 else:
                     if file_type is not None:
-                        if file_type == f['file_type']:
+                        if isinstance(file_type, list):
+                            if f['file_type'] in file_type:
+                                yield ProcessedFile(fid, json_d=f)
+                        elif file_type == f['file_type']:
                             yield ProcessedFile(fid, json_d=f)
                     else:
                         yield ProcessedFile(fid, json_d=f)
