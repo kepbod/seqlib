@@ -3,7 +3,7 @@ Testing parse.py
 '''
 
 import os
-from tests.help_test import check_file
+from tests.utils import check_file
 from seqlib.ngs import fetch_juncfile, bam_to_bedgraph
 
 
@@ -19,6 +19,9 @@ def test_fetch_juncfile():
     os.remove(junc)
     junc = fetch_juncfile('data/junc.bam', min=5)
     check_file(junc, 'data/junc_min.bed')
+    os.remove(junc)
+    junc = fetch_juncfile('data/junc.bam', uniq=True)
+    check_file(junc, 'data/junc_uniq.bed')
     os.remove(junc)
 
 

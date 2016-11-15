@@ -57,7 +57,8 @@ def check_bed(bed):
         return pysam.TabixFile(bed + '.gz')
 
 
-def fetch_juncfile(bam, url=False, dir=None, stranded=False, min=0):
+def fetch_juncfile(bam, url=False, dir=None, uniq=False, stranded=False,
+                   min=0):
     '''
     Fetch junction reads to create a junc file
     '''
@@ -73,6 +74,8 @@ def fetch_juncfile(bam, url=False, dir=None, stranded=False, min=0):
             sys.exit('Your directory is wrong: %s' % dir)
     junc_lst = defaultdict(int)
     for read in bamf:
+        if uniq and read.get_tag('NH') != 1:
+            continue
         if read.cigartuples and any(filter(lambda x: x[0] == 3,
                                            read.cigartuples)):
             npos = re.findall(r'N|D|I', read.cigarstring).index('N')
