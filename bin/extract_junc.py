@@ -10,6 +10,8 @@ Options:
     -o output_dir     Output file directory [default: ./].
     --url             Extract from remote url.
     --bb              Convert to BigWig.
+    --uniq            Only fetch unique mapped reads.
+    --stranded        Retain strand information.
     --min-reads=min   Minimum junction reads [default: 0].
 '''
 
@@ -36,6 +38,8 @@ def main():
         dir = check_dir(options['-o'])
     # fetch junction bed file
     junc_f = fetch_juncfile(options['<bam>'], url=options['--url'], dir=dir,
+                            uniq=options['--uniq'],
+                            stranded=options['--stranded'],
                             min=int(options['--min-reads']))
     # create junction bigbed file in case
     if options['--bb'] and which('bedToBigBed') is not None:
