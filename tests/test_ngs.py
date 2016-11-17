@@ -12,7 +12,7 @@ def test_fetch_juncfile():
     '''
     Testing fetch_juncfile()
     '''
-    junc = fetch_juncfile(pytest.helper.pytest.helper.data_path('junc.bam'))
+    junc = fetch_juncfile(pytest.helper.data_path('junc.bam'))
     pytest.helper.check_file(junc,
                              pytest.helper.data_path('junc_unstranded.bed'))
     os.remove(junc)
