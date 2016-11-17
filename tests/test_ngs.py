@@ -28,7 +28,7 @@ def test_fetch_juncfile():
     os.remove(junc)
 
 
-def test_bam_to_bedgraph(data_folder):
+def test_bam_to_bedgraph():
     '''
     Testing bam_to_bedgraph()
     '''
