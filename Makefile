@@ -27,7 +27,7 @@ clean-test:
 	rm -f .coverage
 
 lint:
-	flake8 pydev
+	flake8 seqlib
 
 test:
-	pytest pydev
+	pytest seqlib
