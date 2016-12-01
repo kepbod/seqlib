@@ -61,6 +61,20 @@ class Info(object):
             return self._info[3]
 
     @property
+    def name(self):
+        '''
+        Return name.
+        >>> info = Info(['chr1', '14819', '15805', 'junc/1', '0', '+', '14819',
+        ...              '15805', '0,0,0', '2', '10,10', '0,976'], type='bed')
+        >>> info.name
+        'junc/1'
+        '''
+        if self._type == 'ref':
+            sys.exit('ERROR: Ref does not have name entry!')
+        else:
+            return self._info[3]
+
+    @property
     def chrom(self):
         '''
         Return chromosome.
@@ -359,6 +373,33 @@ class Annotation(object):
         info = self.fh.readline()
         if info:
             return Info(info.split(), type=self.type)
+        else:
+            raise StopIteration()
+
+    def close(self):
+        self.fh.close()
+
+
+@implements_iterator
+class Junc(object):
+
+    def __init__(self, fname):
+        self.fh = open(fname, 'r')
+
+    def __iter__(self):
+        return self
+
+    def __next__(self):
+        info = self.fh.readline()
+        if info:
+            junc_info = Info(info.split(), type='bed')
+            if junc_info.exon_num != 2:
+                sys.exit('Error: exon number is not 2!')
+            junc_read = int(junc_info.name.split('/')[1])
+            junc_start = junc_info.intron_starts[0]
+            junc_end = junc_info.intron_ends[0]
+            return (junc_info.chrom, junc_start, junc_end, junc_info.strand,
+                    junc_read)
         else:
             raise StopIteration()
 

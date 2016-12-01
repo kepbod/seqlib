@@ -29,5 +29,5 @@ clean-test:
 lint:
 	flake8 seqlib
 
-test:
+test: clean-pyc
 	pytest seqlib
