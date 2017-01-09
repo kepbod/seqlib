@@ -13,6 +13,8 @@ import pybedtools
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
+__all__ = ['check_fasta', 'check_bam', 'check_bed', 'fetch_juncfile',
+           'bam_to_bedgraph']
 
 def check_fasta(fa):
     '''

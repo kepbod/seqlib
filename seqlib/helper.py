@@ -7,6 +7,7 @@ import os
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
+__all__ = ['check_option', 'run_command']
 
 def check_option(n, msg):
     '''

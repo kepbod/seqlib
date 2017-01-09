@@ -7,6 +7,7 @@ from future.utils import implements_iterator
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 
+__all__ = ['Annotation', 'Junc']
 
 class Info(object):
 
