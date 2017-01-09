@@ -28,7 +28,7 @@ def main():
     options = docopt(__doc__, version=__version__)
     if options['--add-url']:
         url_flag = True
-        url_prefix = 'http://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc='
+        url_prefix = 'https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc='
     else:
         url_flag = False
     # get GSE NUMBER
