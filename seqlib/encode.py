@@ -6,8 +6,8 @@ import requests
 import requests.compat
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-
 __all__ = ['Exp', 'RawFile', 'ProcessedFile']
+
 
 class Entry(object):
     '''

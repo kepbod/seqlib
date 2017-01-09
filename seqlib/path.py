@@ -8,8 +8,8 @@ import shutil
 import contextlib
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-
 __all__ = ['which', 'smart_write', 'smart_open', 'check_dir', 'create_dir']
+
 
 def which(program):
     '''

@@ -5,8 +5,8 @@ except ImportError:
     maketrans = str.maketrans
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-
 __all__ = ['dna_to_rna']
+
 
 def dna_to_rna(fa, strand='+', tou=False):
     '''
