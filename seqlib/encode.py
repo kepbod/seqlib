@@ -79,12 +79,10 @@ class SeqFile(Entry):
             tchrep = 'technical_replicate_number'
             self.biological_replicate = replicate[biorep]
             self.technical_replicate = replicate[tchrep]
-            self.is_stranded = replicate['library']['strand_specificity']
         except KeyError:
             replicate = self.json['technical_replicates'][0].split('_')
             self.biological_replicate = replicate[0]
             self.technical_replicate = replicate[1]
-            self.is_stranded = False
         # TODO: library info
         # update available attributes
         self.attr.update({'exp': 'Experiment',
@@ -107,8 +105,6 @@ class RawFile(SeqFile):
     1
     >>> f.technical_replicate
     1
-    >>> f.is_stranded
-    False
     >>> str(f.file_type)
     'fastq'
     >>> str(f.status)
@@ -143,8 +139,6 @@ class ProcessedFile(SeqFile):
     2
     >>> f.technical_replicate
     1
-    >>> f.is_stranded
-    False
     >>> str(f.file_type)
     'bam'
     >>> str(f.status)
