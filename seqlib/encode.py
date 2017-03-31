@@ -2,11 +2,12 @@
 ENCODE relevant functions and classes
 '''
 
+import sys
 import requests
 import requests.compat
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-__all__ = ['Exp', 'RawFile', 'ProcessedFile']
+__all__ = ['Exp', 'SeqFile', 'RawFile', 'ProcessedFile']
 
 
 class Entry(object):
@@ -72,18 +73,36 @@ class SeqFile(Entry):
                                                 self.json['href'])
         self.file_md5 = self.json['md5sum']
         self.file_size = self.json['file_size']
-        # replicate info
-        try:
-            replicate = self.json['replicate']
+        if 'replicates' in self.json:
+            # replicate info
+            replicates = self.json['replicates']
             biorep = 'biological_replicate_number'
             tchrep = 'technical_replicate_number'
-            self.biological_replicate = replicate[biorep]
-            self.technical_replicate = replicate[tchrep]
-        except KeyError:
+            self.biological_replicate = replicates[biorep]
+            self.technical_replicate = replicates[tchrep]
+            # library info
+            if 'library' in self.json['replicates']:
+                library = replicates['library']
+                self.nucleic_acid_term_name = library['nucleic_acid_term_name']
+                self.size_range = library['size_range']
+                self.lysis_method = library['lysis_method']
+                self.extraction_method = library['extraction_method']
+                self.fragmentation_method = library['fragmentation_method']
+                self.is_stranded = library['strand_specificity']
+                # update library attributes
+                self.attr.update({'nucleic_acid_term_name':
+                                  'Nucleic Acid Type',
+                                  'size_range': 'Size Range',
+                                  'lysis_method': 'Lysis Method',
+                                  'extraction_method': 'Extraction Method',
+                                  'fragmentation_method':
+                                  'Fragmentation Method',
+                                  'is_stranded': 'Strand Specificity'})
+        else:
+            # replicate info
             replicate = self.json['technical_replicates'][0].split('_')
-            self.biological_replicate = replicate[0]
-            self.technical_replicate = replicate[1]
-        # TODO: library info
+            self.biological_replicate = int(replicate[0])
+            self.technical_replicate = int(replicate[1])
         # update available attributes
         self.attr.update({'exp': 'Experiment',
                           'file_type': 'File Type',
@@ -177,7 +196,7 @@ class Exp(Entry):
     'Total RNA-Seq on postnatal 0 day mouse forebrain'
     >>> str(exp.assay)
     'RNA-seq'
-    >>> for f in exp.fetch_file(raw=True):
+    >>> for f in exp.fetch_file(process_type='raw'):
     ...     print(f.accession)
     ENCFF447EXU
     ENCFF037JQC
@@ -229,26 +248,41 @@ class Exp(Entry):
         self.description = self.json['description']
         self.assay = self.json['assay_term_name']
 
-    def fetch_file(self, raw=False, file_type=None):
+    def fetch_file(self, process_type='all', file_type=None):
         file_json = self.json['files']
         for f in file_json:
-            if f['output_category'] == 'raw data':
-                is_raw = True
-            else:
-                is_raw = False
-            if raw == is_raw:
-                fid = f['accession']
-                if is_raw:
-                    yield RawFile(fid, json_d=f)
-                else:
-                    if file_type is not None:
-                        if isinstance(file_type, list):
-                            if f['file_type'] in file_type:
-                                yield ProcessedFile(fid, json_d=f)
-                        elif file_type == f['file_type']:
+            fid = f['accession']
+            if file_type is not None:
+                if isinstance(file_type, list):
+                    if f['file_type'] in file_type:
+                        if f['file_type'] == 'fastq':
+                            yield RawFile(fid, json_d=f)
+                        else:
                             yield ProcessedFile(fid, json_d=f)
+                elif file_type == f['file_type']:
+                    if f['file_type'] == 'fastq':
+                        yield RawFile(fid, json_d=f)
                     else:
                         yield ProcessedFile(fid, json_d=f)
+            elif process_type in ['all', 'raw', 'processed']:
+                if f['output_category'] == 'raw data':
+                    is_raw = True
+                else:
+                    is_raw = False
+                if process_type == 'raw':
+                    if is_raw:
+                        yield RawFile(fid, json_d=f)
+                elif process_type == 'processed':
+                    if not is_raw:
+                        yield ProcessedFile(fid, json_d=f)
+                else:
+                    if is_raw:
+                        yield RawFile(fid, json_d=f)
+                    else:
+                        yield ProcessedFile(fid, json_d=f)
+            else:
+                sys.exit('If you did not assign file_type, '
+                         'process_type should be "all", "raw" or "processed"')
 
 
 if __name__ == '__main__':
