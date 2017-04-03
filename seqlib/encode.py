@@ -10,6 +10,26 @@ __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 __all__ = ['Exp', 'SeqFile', 'RawFile', 'ProcessedFile']
 
 
+def fetch_attr(obj, info, json, dict):
+    for entry in info:
+        attr, attrname, desc = entry
+        if attr in json:
+            # extract attribute
+            setattr(obj, attrname, json[attr])
+            # update dictionary
+            dict[attrname] = desc
+
+
+LibraryInfo = [['nucleic_acid_term_name', 'nucleic_acid_type',
+                'Nucleic Acid Type'],
+               ['size_range', 'size_range', 'Size Range'],
+               ['lysis_method', 'lysis_method', 'Lysis Method'],
+               ['extraction_method', 'extraction_method', 'Extraction Method'],
+               ['fragmentation_method', 'fragmentation_method',
+                'Fragmentation Method'],
+               ['is_stranded', 'strand_specificity', 'Strand Specificity']]
+
+
 class Entry(object):
     '''
     Meta class of ENCODE entry
@@ -73,31 +93,17 @@ class SeqFile(Entry):
                                                 self.json['href'])
         self.file_md5 = self.json['md5sum']
         self.file_size = self.json['file_size']
-        if 'replicates' in self.json:
+        if 'replicate' in self.json:
             # replicate info
-            replicates = self.json['replicates']
+            replicate = self.json['replicate']
             biorep = 'biological_replicate_number'
             tchrep = 'technical_replicate_number'
-            self.biological_replicate = replicates[biorep]
-            self.technical_replicate = replicates[tchrep]
+            self.biological_replicate = replicate[biorep]
+            self.technical_replicate = replicate[tchrep]
             # library info
-            if 'library' in self.json['replicates']:
-                library = replicates['library']
-                self.nucleic_acid_term_name = library['nucleic_acid_term_name']
-                self.size_range = library['size_range']
-                self.lysis_method = library['lysis_method']
-                self.extraction_method = library['extraction_method']
-                self.fragmentation_method = library['fragmentation_method']
-                self.is_stranded = library['strand_specificity']
-                # update library attributes
-                self.attr.update({'nucleic_acid_term_name':
-                                  'Nucleic Acid Type',
-                                  'size_range': 'Size Range',
-                                  'lysis_method': 'Lysis Method',
-                                  'extraction_method': 'Extraction Method',
-                                  'fragmentation_method':
-                                  'Fragmentation Method',
-                                  'is_stranded': 'Strand Specificity'})
+            if 'library' in self.json['replicate']:
+                library = replicate['library']
+                fetch_attr(self, LibraryInfo, library, self.attr)
         else:
             # replicate info
             replicate = self.json['technical_replicates'][0].split('_')
