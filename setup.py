@@ -31,10 +31,12 @@ setup(name='seqlib',
           'pysam>=0.8.4',
           'pybedtools>=0.7.8',
           'docopt',
-          'beautifulsoup4'
+          'beautifulsoup4',
+          'lxml'
       ],
       scripts=[
           'bin/fetch_geoinfo.py',
-          'bin/extract_junc.py'
+          'bin/extract_junc.py',
+          'bin/fetch_encode.py'
       ]
       )
