@@ -16,7 +16,7 @@ __all__ = ['check_fasta', 'check_bam', 'check_bed', 'fetch_juncfile',
            'bam_to_bedgraph']
 
 
-def check_fasta(fa):
+def check_fasta(fa, return_handle=True):
     '''
     Check fasta files.
     http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#fasta-files
@@ -25,10 +25,13 @@ def check_fasta(fa):
         sys.exit('No such file: %s!' % fa)
     if not os.path.isfile(fa + '.fai'):
         pysam.faidx(fa)
-    return pysam.FastaFile(fa)
+    if return_handle:
+        return pysam.FastaFile(fa)
+    else:
+        return fa
 
 
-def check_bam(bam):
+def check_bam(bam, return_handle=True):
     '''
     Check bam files.
     http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#sam-bam-files
@@ -37,10 +40,13 @@ def check_bam(bam):
         sys.exit('No such file: %s!' % bam)
     if not os.path.isfile(bam + '.bai'):
         pysam.index(bam)
-    return pysam.AlignmentFile(bam, 'rb')
+    if return_handle:
+        return pysam.AlignmentFile(bam, 'rb')
+    else:
+        return bam
 
 
-def check_bed(bed):
+def check_bed(bed, return_handle=True):
     '''
     Check bed files.
     http://pysam.readthedocs.io/en/latest/api.html?highlight=faidx#tabix-files
@@ -50,13 +56,17 @@ def check_bed(bed):
     if bed.endswith('.gz'):
         if not os.path.isfile(bed + '.tbi'):  # no index
             pysam.tabix_index(bed, preset='bed')
-        return pysam.TabixFile(bed)
+        bedf = bed
     else:
         if not os.path.isfile(bed + '.gz'):  # no compress
             pybedtools.BedTool(bed).bgzip()
         if not os.path.isfile(bed + '.gz.tbi'):  # no index
             pysam.tabix_index(bed + '.gz', preset='bed')
-        return pysam.TabixFile(bed + '.gz')
+        bedf = bed + '.gz'
+    if return_handle:
+        return pysam.TabixFile(bedf)
+    else:
+        return bedf
 
 
 def fetch_juncfile(bam, url=False, dir=None, uniq=False, stranded=False,
