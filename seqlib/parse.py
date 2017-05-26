@@ -259,9 +259,9 @@ class Info(object):
         [11873, 12594, 13402]
         '''
         if self._type == 'ref':
-            return [int(x) for x in self._info[9].split(',')[:-1]]
+            return [int(x) for x in self._info[9].rstrip(',').split(',')]
         else:
-            offsets = [int(x) for x in self._info[11].split(',')]
+            offsets = [int(x) for x in self._info[11].rstrip(',').split(',')]
             return [self.tx_start + x for x in offsets]
 
     @property
@@ -280,9 +280,9 @@ class Info(object):
         [12227, 12721, 14409]
         '''
         if self._type == 'ref':
-            return [int(x) for x in self._info[10].split(',')[:-1]]
+            return [int(x) for x in self._info[10].rstrip(',').split(',')]
         else:
-            sizes = [int(x) for x in self._info[10].split(',')]
+            sizes = [int(x) for x in self._info[10].rstrip(',').split(',')]
             return [start + size for start, size in zip(self.exon_starts,
                                                         sizes)]
 
@@ -305,7 +305,7 @@ class Info(object):
             return [end - start for start, end in zip(self.exon_starts,
                                                       self.exon_ends)]
         else:
-            return [int(x) for x in self._info[10].split(',')]
+            return [int(x) for x in self._info[10].rstrip(',').split(',')]
 
     @property
     def intron_starts(self):

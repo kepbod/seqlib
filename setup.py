@@ -37,6 +37,7 @@ setup(name='seqlib',
       scripts=[
           'bin/fetch_geoinfo.py',
           'bin/extract_junc.py',
-          'bin/fetch_encode.py'
+          'bin/fetch_encode.py',
+          'bin/extract_region.py'
       ]
       )
