@@ -1,5 +1,5 @@
 import unittest
-from interval import Interval
+from seqlib.interval import Interval
 
 
 class TestInterval(unittest.TestCase):
