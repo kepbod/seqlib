@@ -9,7 +9,7 @@ Options:
     --version         Show version.
     -r region         Fetched region (promoter, exon, intron, gene).
     -t type           Type of annotation file. [default: ref]
-    --promoter=pro    Promoter region. [default: 1000]
+    --extend=extend   Entended region. [default: 1000]
     --split-strand    Whether split according to strand.
 '''
 
@@ -38,7 +38,7 @@ def main():
         anno = Annotation(anno, type=anno_type)
     else:
         sys.exit('Error: No annotation file!')
-    dis = int(options['--promoter'])
+    dis = int(options['--extend'])
     split_flag = options['--split-strand']
     if split_flag:
         region_plus_lst = defaultdict(list)
@@ -57,12 +57,12 @@ def main():
             ref_lst[chrom].append([site - dis, site + dis])
         elif region == 'exon':
             for s, e in zip(info.exon_starts, info.exon_ends):
-                ref_lst[chrom].append([s, e])
+                ref_lst[chrom].append([s - dis, e + dis])
         elif region == 'intron':
             for s, e in zip(info.intron_starts, info.intron_ends):
-                ref_lst[chrom].append([s, e])
+                ref_lst[chrom].append([s - dis, e + dis])
         else:
-            ref_lst[chrom].append([info.tx_start, info.tx_end])
+            ref_lst[chrom].append([info.tx_start - dis, info.tx_end + dis])
     if split_flag:
         for chrom in region_plus_lst:
             for itl in Interval(region_plus_lst[chrom]):
