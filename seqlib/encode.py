@@ -116,8 +116,8 @@ class SeqFile(Entry):
                           'file_url': 'File Download URL',
                           'file_md5': 'File MD5',
                           'file_size': 'File Size',
-                          'biorep': 'Biological Replicate',
-                          'tchrep': 'Technical Replicate'})
+                          'biological_replicate': 'Biological Replicate',
+                          'technical_replicate': 'Technical Replicate'})
 
 
 class RawFile(SeqFile):
