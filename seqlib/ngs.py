@@ -94,7 +94,10 @@ def fetch_juncfile(bam, url=False, dir=None, uniq=False, stranded=False,
             pos1 = read.get_blocks()[npos][1]
             pos2 = read.get_blocks()[npos + 1][0]
             if stranded:
-                strand = '+' if read.is_reverse else '-'
+                if read.is_paired and read.is_read2:  # read2
+                    strand = '-' if read.is_reverse else '+'
+                else:  # read1
+                    strand = '+' if read.is_reverse else '-'
             else:
                 strand = '+'
             junc_id = '%s\t%d\t%d\t%s' % (read.reference_name, pos1, pos2,

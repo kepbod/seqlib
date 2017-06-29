@@ -26,6 +26,11 @@ def test_fetch_juncfile():
     junc = fetch_juncfile(pytest.helpers.data_path('junc.bam'), uniq=True)
     pytest.helpers.check_file(junc, pytest.helpers.data_path('junc_uniq.bed'))
     os.remove(junc)
+    junc = fetch_juncfile(pytest.helpers.data_path('junc_paired.bam'),
+                          stranded=True)
+    pytest.helpers.check_file(junc,
+                              pytest.helpers.data_path('junc_paired.bed'))
+    os.remove(junc)
 
 
 def test_bam_to_bedgraph():
