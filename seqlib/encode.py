@@ -150,8 +150,12 @@ class RawFile(SeqFile):
         self._parse_rawfile_json()
 
     def _parse_rawfile_json(self):
+        # raw file info
         self.run_type = self.json['run_type']
         self.read_length = self.json['read_length']
+        # update available attributes
+        self.attr.update({'run_type': 'Run Type',
+                          'read_length': 'Read Length'})
 
 
 class ProcessedFile(SeqFile):
@@ -178,14 +182,23 @@ class ProcessedFile(SeqFile):
     'mm10'
     >>> str(f.output_type)
     'alignments'
+    >>> str(f.genome_annotation)
+    'M4'
     '''
     def __init__(self, fid, json_d=None):
         super(ProcessedFile, self).__init__(fid, json_d=json_d)
         self._parse_processedfile_json()
 
     def _parse_processedfile_json(self):
+        # processed file info
         self.assembly = self.json['assembly']
         self.output_type = self.json['output_type']
+        if 'genome_annotation' in self.json:
+            self.genome_annotation = self.json['genome_annotation']
+            self.attr.update({'genome_annotation': 'Genome Annotation'})
+        # update available attributes
+        self.attr.update({'assembly': 'Assembly',
+                          'output_type': 'Output Type'})
 
 
 class Exp(Entry):
@@ -251,8 +264,12 @@ class Exp(Entry):
         self._parse_exp_json()
 
     def _parse_exp_json(self):
+        # experiment info
         self.description = self.json['description']
         self.assay = self.json['assay_term_name']
+        # update available attributes
+        self.attr.update({'description': 'Description',
+                          'assay_term_name': 'Assay'})
 
     def fetch_file(self, process_type='all', file_type=None):
         file_json = self.json['files']
