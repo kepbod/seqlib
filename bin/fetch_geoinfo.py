@@ -39,11 +39,14 @@ def main():
         sys.exit('Error: <GSE_NUM> should be in correct format!')
     # set up MINiML url
     info_xml_name = gse_num + '_family.xml'
-    info_xml_url = 'ftp://ftp.ncbi.nlm.nih.gov/geo/series/'
+    info_xml_url = 'ftp.ncbi.nlm.nih.gov/geo/series/'
     info_xml_url += gse_num[:-3] + 'nnn/' + gse_num + '/miniml/'
     info_xml_url += info_xml_name + '.tgz'
     # store xml file
-    zipped_xml, _ = urlretrieve(info_xml_url)
+    try:  # try using ftp
+        zipped_xml, _ = urlretrieve('ftp://' + info_xml_url)
+    except:  # ftp connection failed, using http
+        zipped_xml, _ = urlretrieve('http://' + info_xml_url)
     # parse xml
     xml_file = tarfile.open(zipped_xml).extractfile(info_xml_name)
     info_xml = BeautifulSoup(xml_file, 'xml')
