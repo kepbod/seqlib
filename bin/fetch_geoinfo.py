@@ -64,20 +64,27 @@ def main():
             if url_flag:
                 f.write(url_prefix + gsm_num + '\t')
             f.write(sample.Title.string + '\t')
-            sra_url = sample.find('Relation', type='SRA')['target']
-            if url_flag:
-                f.write(sra_url + '\t')
-            f.write(fetch_sra(sra_url))
+            sra_page = sample.find('Relation', type='SRA')['target']
+            f.write(fetch_sra(sra_page, url_flag=url_flag))
             f.write('\n')
 
 
-def fetch_sra(sra_url):
+def fetch_sra(sra_page, url_flag=False):
     sra_info = []
-    sra_html = BeautifulSoup(urlopen(sra_url).read(), 'html.parser')
+    if url_flag:
+        sra_url_template = 'ftp://ftp-trace.ncbi.nih.gov/'
+        sra_url_template += 'sra/sra-instant/reads/ByRun/sra/SRR/'
+        sra_url_template += '%s/%s/%s.sra'
+    sra_html = BeautifulSoup(urlopen(sra_page).read(), 'html.parser')
     for row in sra_html.tbody.find_all('tr'):
         sra_num_info, read_info = row.find_all('td')[:2]
-        sra_info.append('\t'.join([sra_num_info.string, read_info.string]))
-    return '\t' .join(sra_info)
+        sra_num = sra_num_info.string
+        if url_flag:
+            sra_url = sra_url_template % (sra_num[:6], sra_num, sra_num)
+            sra_info.append('\t'.join([sra_num, read_info.string, sra_url]))
+        else:
+            sra_info.append('\t'.join([sra_num, read_info.string]))
+    return '\t'.join(sra_info)
 
 
 if __name__ == '__main__':
