@@ -451,9 +451,9 @@ class Junc(object):
         return self
 
     def __next__(self):
-        info = self.fh.readline()
+        info = self._fh.readline()
         if info:
-            if self.aligner == 'STAR':
+            if self._aligner == 'STAR':
                 junc_info = STAR_Junc(info.rstrip().split())
                 if self._info_flag:
                     return junc_info.info(read_type=self._read_type)

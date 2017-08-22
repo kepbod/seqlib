@@ -211,8 +211,6 @@ class Exp(Entry):
     '/experiments/ENCSR362AIZ/'
     >>> str(exp.url)
     'https://www.encodeproject.org/experiments/ENCSR362AIZ/'
-    >>> str(exp.description)
-    'Total RNA-Seq on postnatal 0 day mouse forebrain'
     >>> str(exp.assay)
     'RNA-seq'
     >>> for f in exp.fetch_file(process_type='raw'):
