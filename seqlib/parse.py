@@ -11,15 +11,15 @@ __all__ = ['Annotation', 'Junc']
 
 class Info(object):
 
-    def __init__(self, info, type='ref'):
-        if type == 'ref':
+    def __init__(self, info, ftype='ref'):
+        if ftype == 'ref':
             assert len(info) == 11, 'REF format should have 11 columns'
-        elif type == 'bed':
+        elif ftype == 'bed':
             assert len(info) == 12, 'BED format should have 12 columns'
         else:
             sys.exit('Wrong format!')
         self._info = info
-        self._type = type
+        self._type = ftype
 
     @property
     def gene(self):
@@ -32,7 +32,7 @@ class Info(object):
         'DDX11L1'
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.gene
         'uc010nxq.1'
         '''
@@ -52,7 +52,7 @@ class Info(object):
         'uc010nxq.1'
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.isoform
         'uc010nxq.1'
         '''
@@ -66,7 +66,7 @@ class Info(object):
         '''
         Return name.
         >>> info = Info(['chr1', '14819', '15805', 'junc/1', '0', '+', '14819',
-        ...              '15805', '0,0,0', '2', '10,10', '0,976'], type='bed')
+        ...              '15805', '0,0,0', '2', '10,10', '0,976'], ftype='bed')
         >>> info.name
         'junc/1'
         '''
@@ -86,7 +86,7 @@ class Info(object):
         'chr1'
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.chrom
         'chr1'
         '''
@@ -106,7 +106,7 @@ class Info(object):
         '+'
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.strand
         '+'
         '''
@@ -126,7 +126,7 @@ class Info(object):
         11873
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.tx_start
         11873
         '''
@@ -146,7 +146,7 @@ class Info(object):
         14409
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.tx_end
         14409
         '''
@@ -166,7 +166,7 @@ class Info(object):
         2536
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.total_length
         2536
         '''
@@ -183,7 +183,7 @@ class Info(object):
         12189
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.cds_start
         12189
         '''
@@ -200,7 +200,7 @@ class Info(object):
         13639
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.cds_end
         13639
         '''
@@ -217,7 +217,7 @@ class Info(object):
         3
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.exon_num
         3
         '''
@@ -237,7 +237,7 @@ class Info(object):
         2
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.intron_num
         2
         '''
@@ -254,7 +254,7 @@ class Info(object):
         [11873, 12594, 13402]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.exon_starts
         [11873, 12594, 13402]
         '''
@@ -275,7 +275,7 @@ class Info(object):
         [12227, 12721, 14409]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.exon_ends
         [12227, 12721, 14409]
         '''
@@ -297,7 +297,7 @@ class Info(object):
         [354, 127, 1007]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.exon_lengths
         [354, 127, 1007]
         '''
@@ -318,7 +318,7 @@ class Info(object):
         [12227, 12721]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.intron_starts
         [12227, 12721]
         '''
@@ -335,7 +335,7 @@ class Info(object):
         [12594, 13402]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.intron_ends
         [12594, 13402]
         '''
@@ -352,7 +352,7 @@ class Info(object):
         [367, 681]
         >>> info = Info(['chr1', '11873', '14409', 'uc010nxq.1', '0', '+',
         ...              '12189', '13639', '0,0,0', '3', '354,127,1007',
-        ...              '0,721,1529'], type='bed')
+        ...              '0,721,1529'], ftype='bed')
         >>> info.intron_lengths
         [367, 681]
         '''
@@ -360,32 +360,92 @@ class Info(object):
                                                   self.intron_ends)]
 
 
+STAR_JUNC_STRAND = {'0': '*', '1': '+', '2': '-'}
+STAR_JUNC_MOTIF = {'0': 'NA', '1': 'GT/AG', '2': 'CT/AC', '3': 'GC/AG',
+                   '4': 'CT/GC', '5': 'AT/AC', '6': 'GT/AT'}
+STAR_JUNC_ANNOTATED = {'0': False, '1': True}
+
+
+class STAR_Junc(object):
+
+    def __init__(self, info):
+        '''
+        >>> info = STAR_Junc(['chr2L', '13626', '13682', '2', '2', '1', '149',
+        ...                   '3', '39'])
+        >>> info.chrom
+        'chr2L'
+        >>> info.start
+        13625
+        >>> info.end
+        13682
+        >>> info.strand
+        '-'
+        >>> info.motif
+        'CT/AC'
+        >>> info.is_annotated
+        True
+        >>> info.uniq_read
+        149
+        >>> info.multi_read
+        3
+        >>> info.read
+        152
+        >>> info.overhang
+        39
+        '''
+        self._info = info
+        self.chrom, self.start, self.end = self._info[:3]
+        self.start = int(self.start) - 1
+        self.end = int(self.end)
+        self.strand = STAR_JUNC_STRAND[self._info[3]]
+        self.motif = STAR_JUNC_MOTIF[self._info[4]]
+        self.is_annotated = STAR_JUNC_ANNOTATED[self._info[5]]
+        self.uniq_read = int(self._info[6])
+        self.multi_read = int(self._info[7])
+        self.read = self.uniq_read + self.multi_read
+        self.overhang = int(self._info[8])
+
+    def info(self, read_type=None):
+        if read_type == 'unique':
+            return (self.chrom, self.start, self.end, self.strand,
+                    self.uniq_read)
+        elif read_type == 'multiple':
+            return (self.chrom, self.start, self.end, self.strand,
+                    self.multi_read)
+        else:
+            return (self.chrom, self.start, self.end, self.strand,
+                    self.read)
+
+
 @implements_iterator
 class Annotation(object):
 
-    def __init__(self, fname, type='ref'):
-        self.fh = open(fname, 'r')
-        self.type = type
+    def __init__(self, fname, ftype='ref'):
+        self._fh = open(fname, 'r')
+        self._type = ftype
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        info = self.fh.readline()
+        info = self._fh.readline()
         if info:
-            return Info(info.split(), type=self.type)
+            return Info(info.rstrip().split(), ftype=self._type)
         else:
             raise StopIteration()
 
     def close(self):
-        self.fh.close()
+        self._fh.close()
 
 
 @implements_iterator
 class Junc(object):
 
-    def __init__(self, fname):
-        self.fh = open(fname, 'r')
+    def __init__(self, fname, aligner=None, info_flag=True, read_type=None):
+        self._fh = open(fname, 'r')
+        self._aligner = aligner
+        self._info_flag = info_flag
+        self._read_type = read_type
 
     def __iter__(self):
         return self
@@ -393,19 +453,26 @@ class Junc(object):
     def __next__(self):
         info = self.fh.readline()
         if info:
-            junc_info = Info(info.split(), type='bed')
-            if junc_info.exon_num != 2:
-                sys.exit('Error: exon number is not 2!')
-            junc_read = int(junc_info.name.split('/')[1])
-            junc_start = junc_info.intron_starts[0]
-            junc_end = junc_info.intron_ends[0]
-            return (junc_info.chrom, junc_start, junc_end, junc_info.strand,
-                    junc_read)
+            if self.aligner == 'STAR':
+                junc_info = STAR_Junc(info.rstrip().split())
+                if self._info_flag:
+                    return junc_info.info(read_type=self._read_type)
+                else:
+                    return junc_info
+            else:
+                junc_info = Info(info.rstrip().split(), ftype='bed')
+                if junc_info.exon_num != 2:
+                    sys.exit('Error: exon number is not 2!')
+                junc_read = int(junc_info.name.split('/')[1])
+                junc_start = junc_info.intron_starts[0]
+                junc_end = junc_info.intron_ends[0]
+                return (junc_info.chrom, junc_start, junc_end,
+                        junc_info.strand, junc_read)
         else:
             raise StopIteration()
 
     def close(self):
-        self.fh.close()
+        self._fh.close()
 
 
 if __name__ == '__main__':
