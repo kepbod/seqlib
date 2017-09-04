@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from setuptools import setup, find_packages
+from setuptools import setup
 from seqlib.version import __version__
 
 setup(name='seqlib',
@@ -24,7 +24,8 @@ setup(name='seqlib',
           'Programming Language :: Python :: 3.5',
       ],
       keywords='NGS',
-      packages=find_packages(),
+      packages=['seqlib'],
+      package_data={'seqlib': ['data/*.msg']},
       install_requires=[
           'future',
           'requests',

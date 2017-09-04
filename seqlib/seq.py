@@ -1,11 +1,17 @@
 import sys
+import os
+import msgpack
 try:
     from string import maketrans
 except ImportError:
     maketrans = str.maketrans
+try:
+    from itertools import zip_longest as zip_longest
+except ImportError:
+    from itertools import zip_longest as zip_longest
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
-__all__ = ['dna_to_rna']
+__all__ = ['dna_to_rna', 'codon', 'load_codon_table']
 
 
 def dna_to_rna(fa, strand='+', tou=False):
@@ -38,6 +44,39 @@ def dna_to_rna(fa, strand='+', tou=False):
             return fa.translate(table).upper()[::-1]
     else:
         sys.exit('Strand should be "+" or "-"!')
+
+
+def load_codon_table(seq_type):
+    dir_path = os.path.dirname(os.path.abspath(__file__))
+    table_f = os.path.join(dir_path, 'data/%s_codon.msg' % seq_type)
+    with open(table_f, 'rb') as f:
+        table = msgpack.unpackb(f.read(), encoding='utf-8')
+    return table
+
+
+def codon(seq, seq_type='dna', frame=0, table=None):
+    '''
+    Convert sequence to codon
+    >>> codon('ATGTTAGCTATC')
+    ('MLAI', None)
+    >>> codon('ATGTTAGCTATC', frame=1)
+    ('C*L', 'TC')
+    >>> codon('AUGUUAGCUAUC', seq_type='rna')
+    ('MLAI', None)
+    '''
+    # check codon table
+    if not table:
+        table = load_codon_table(seq_type)
+    # convert sequence
+    aa = ''
+    remain = None
+    for i in map(''.join, zip_longest(*([iter(seq[frame:])] * 3),
+                                      fillvalue='')):
+        if len(i) == 3:
+            aa += table[i]
+        else:
+            remain = i
+    return aa, remain
 
 
 if __name__ == '__main__':
