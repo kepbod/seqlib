@@ -6,7 +6,7 @@ try:
 except ImportError:
     maketrans = str.maketrans
 try:
-    from itertools import zip_longest as zip_longest
+    from itertools import izip_longest as zip_longest
 except ImportError:
     from itertools import zip_longest as zip_longest
 
