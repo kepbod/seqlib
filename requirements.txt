@@ -1,6 +1,6 @@
 future
 requests
-msgpack
+msgpack-python
 docopt
 beautifulsoup4
 lxml
