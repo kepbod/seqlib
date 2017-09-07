@@ -76,7 +76,7 @@ def codon(seq, seq_type='dna', frame=0, table=None):
             aa += table[i]
         else:
             remain = i
-    return aa, remain
+    return str(aa), remain
 
 
 if __name__ == '__main__':
