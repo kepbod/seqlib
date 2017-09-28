@@ -11,6 +11,7 @@ Options:
     -t type           Type of annotation file. [default: ref]
     --extend=extend   Entended region. [default: 1000]
     --split-strand    Whether split according to strand.
+    --no-merge        Do not merge regions
 '''
 
 import sys
@@ -45,6 +46,7 @@ def main():
         region_minus_lst = defaultdict(list)
     else:
         region_lst = defaultdict(list)
+    no_merge_flag = options['--no-merge']
     for info in anno:
         if info.strand == '+':
             site = info.tx_start
@@ -65,14 +67,26 @@ def main():
             ref_lst[chrom].append([info.tx_start - dis, info.tx_end + dis])
     if split_flag:
         for chrom in region_plus_lst:
-            for itl in Interval(region_plus_lst[chrom]):
+            if no_merge_flag:
+                region_interval = region_plus_lst[chrom]
+            else:
+                region_interval = Interval(region_plus_lst[chrom])
+            for itl in region_interval:
                 print('%s\t%d\t%d\t%s\t0\t+' % (chrom, itl[0], itl[1], region))
         for chrom in region_minus_lst:
-            for itl in Interval(region_minus_lst[chrom]):
+            if no_merge_flag:
+                region_interval = region_minus_lst[chrom]
+            else:
+                region_interval = Interval(region_minus_lst[chrom])
+            for itl in region_interval:
                 print('%s\t%d\t%d\t%s\t0\t-' % (chrom, itl[0], itl[1], region))
     else:
         for chrom in region_lst:
-            for itl in Interval(region_lst[chrom]):
+            if no_merge_flag:
+                region_interval = region_lst[chrom]
+            else:
+                region_interval = Interval(region_lst[chrom])
+            for itl in region_interval:
                 print('%s\t%d\t%d\t%s\t0\t+' % (chrom, itl[0], itl[1], region))
 
 
