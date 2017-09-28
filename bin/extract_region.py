@@ -9,7 +9,7 @@ Options:
     --version         Show version.
     -r region         Fetched region (promoter, exon, intron, gene).
     -t type           Type of annotation file. [default: ref]
-    --extend=extend   Entended region. [default: 1000]
+    --extend=extend   Entended region. [default: 0]
     --split-strand    Whether split according to strand.
     --no-merge        Do not merge regions
 '''
