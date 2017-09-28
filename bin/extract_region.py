@@ -35,7 +35,7 @@ def main():
         sys.exit('Error: incorrect annotation file format!')
     anno = options['<annotation>']
     if os.path.isfile(anno):
-        anno = Annotation(anno, type=anno_type)
+        anno = Annotation(anno, ftype=anno_type)
     else:
         sys.exit('Error: No annotation file!')
     dis = int(options['--extend'])
