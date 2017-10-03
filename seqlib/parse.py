@@ -4,6 +4,7 @@ Functions and classes to fetch information
 
 import sys
 from future.utils import implements_iterator
+from .interval import Interval
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 __all__ = ['Annotation', 'Junc']
@@ -308,6 +309,18 @@ class Info(object):
             return [int(x) for x in self._info[10].rstrip(',').split(',')]
 
     @property
+    def mRNA_length(self):
+        '''
+        Return mRNA length
+        >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873',
+        ...              '14409', '12189', '13639', '3', '11873,12594,13402,',
+        ...              '12227,12721,14409,'])
+        >>> info.mRNA_length
+        1488
+        '''
+        return sum(self.exon_lengths)
+
+    @property
     def intron_starts(self):
         '''
         Return intron starts
@@ -358,6 +371,68 @@ class Info(object):
         '''
         return [end - start for start, end in zip(self.intron_starts,
                                                   self.intron_ends)]
+
+    @property
+    def utr5_regions(self):
+        '''
+        Return 5UTR regions
+        >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873',
+        ...              '14409', '12189', '13639', '3', '11873,12594,13402,',
+        ...              '12227,12721,14409,'])
+        >>> info.utr5_regions
+        [[11873, 12189]]
+        '''
+        if self.cds_start == self.cds_end:
+            return []
+        exon_regions = [[start, end]
+                        for start, end in zip(self.exon_starts,
+                                              self.exon_ends)]
+        if self.strand == '+':
+            return Interval.split(exon_regions, self.cds_start, self.cds_end,
+                                  flag='left')
+        else:
+            return Interval.split(exon_regions, self.cds_start, self.cds_end,
+                                  flag='right')
+
+    @property
+    def utr3_regions(self):
+        '''
+        Return 3UTR regions
+        >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873',
+        ...              '14409', '12189', '13639', '3', '11873,12594,13402,',
+        ...              '12227,12721,14409,'])
+        >>> info.utr3_regions
+        [[13639, 14409]]
+        '''
+        if self.cds_start == self.cds_end:
+            return []
+        exon_regions = [[start, end]
+                        for start, end in zip(self.exon_starts,
+                                              self.exon_ends)]
+        if self.strand == '+':
+            return Interval.split(exon_regions, self.cds_start, self.cds_end,
+                                  flag='right')
+        else:
+            return Interval.split(exon_regions, self.cds_start, self.cds_end,
+                                  flag='left')
+
+    @property
+    def cds_regions(self):
+        '''
+        Return CDS regions
+        >>> info = Info(['DDX11L1', 'uc010nxq.1', 'chr1', '+', '11873',
+        ...              '14409', '12189', '13639', '3', '11873,12594,13402,',
+        ...              '12227,12721,14409,'])
+        >>> info.cds_regions
+        [[12189, 12227], [12594, 12721], [13402, 13639]]
+        '''
+        if self.cds_start == self.cds_end:
+            return []
+        exon_regions = [[start, end]
+                        for start, end in zip(self.exon_starts,
+                                              self.exon_ends)]
+        return Interval.split(exon_regions, self.cds_start, self.cds_end,
+                              flag='middle')
 
 
 STAR_JUNC_STRAND = {'0': '*', '1': '+', '2': '-'}

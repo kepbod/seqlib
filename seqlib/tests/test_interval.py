@@ -150,6 +150,17 @@ class TestInterval(unittest.TestCase):
         self.assertTrue([[27, 32], [33, 37]] in self.a,
                         'Failed in [[27, 32], [33, 37]] in a')
 
+    def testSplit(self):
+        self.b = [[5, 12, 'I'], [20, 22, 'II'], [23, 28, 'III']]
+        r = Interval.split(self.b, 21, 24, flag='left')
+        self.assertListEqual(r, [[5, 12, 'I'], [20, 21, 'II']],
+                             'Failed in Split')
+        r = Interval.split(self.b, 24, 26, flag='middle')
+        self.assertListEqual(r, [[24, 26, 'III']], 'Failed in Split')
+        r = Interval.split(self.b, 8, 21, flag='right')
+        self.assertListEqual(r, [[21, 22, 'II'], [23, 28, 'III']],
+                             'Failed in Split')
+
     def testMapto(self):
         r = Interval.mapto(self.d, self.c)
         self.assertListEqual(r, [[3, 4, 'a', 'I'], [3, 7, 'b', 'I'],

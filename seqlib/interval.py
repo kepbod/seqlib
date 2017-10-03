@@ -6,6 +6,7 @@ version: 1.0
 
 # copied and modified from https://github.com/kepbod/interval
 
+import sys
 import copy
 
 
@@ -227,6 +228,24 @@ class Interval(object):
         extract intervals not in 'b'.
         '''
         self.interval = self.__sub__(interval, 0).interval
+
+    @staticmethod
+    def split(interval, x, y, flag):
+        '''
+        split(interval, x, y, flag) -> interval
+        split interval based on x and y.
+        '''
+        x, y = int(x), int(y)
+        assert x <= y, '{} is not fewer than {}'.format(x, y)
+        lst = Interval(Interval.__init(interval))
+        if flag == 'left':
+            return lst.__mul__([0, x]).interval
+        elif flag == 'middle':
+            return lst.__mul__([x, y]).interval
+        elif flag == 'right':
+            return lst.__mul__([y, lst.interval[-1][1]]).interval
+        else:
+            sys.exit('flag should be "left", "middle", "right"')
 
     @staticmethod
     def mapto(interval, index):
