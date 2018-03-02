@@ -2,7 +2,11 @@
 # -*- coding: utf-8 -*-
 
 from setuptools import setup
+from setuptools.extension import Extension
 from seqlib.version import __version__
+from Cython.Build import cythonize
+
+ext_modules = [Extension('seqlib.align', ['seqlib/align.pyx'])]
 
 setup(name='seqlib',
       version=__version__,
@@ -26,6 +30,7 @@ setup(name='seqlib',
       keywords='NGS',
       packages=['seqlib'],
       package_data={'seqlib': ['data/*.msg']},
+      ext_modules=cythonize(ext_modules),
       install_requires=[
           'future',
           'requests',
@@ -33,7 +38,8 @@ setup(name='seqlib',
           'pybedtools>=0.7.8',
           'docopt',
           'beautifulsoup4',
-          'lxml'
+          'lxml',
+          'Cython'
       ],
       scripts=[
           'bin/fetch_geoinfo.py',
