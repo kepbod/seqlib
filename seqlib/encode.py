@@ -93,31 +93,13 @@ class SeqFile(Entry):
                                                 self.json['href'])
         self.file_md5 = self.json['md5sum']
         self.file_size = self.json['file_size']
-        if 'replicate' in self.json:
-            # replicate info
-            replicate = self.json['replicate']
-            biorep = 'biological_replicate_number'
-            tchrep = 'technical_replicate_number'
-            self.biological_replicate = replicate[biorep]
-            self.technical_replicate = replicate[tchrep]
-            # library info
-            if 'library' in self.json['replicate']:
-                library = replicate['library']
-                fetch_attr(self, LibraryInfo, library, self.attr)
-        else:
-            # replicate info
-            replicate = self.json['technical_replicates'][0].split('_')
-            self.biological_replicate = int(replicate[0])
-            self.technical_replicate = int(replicate[1])
         # update available attributes
         self.attr.update({'exp': 'Experiment',
                           'file_type': 'File Type',
                           'status': 'Status',
                           'file_url': 'File Download URL',
                           'file_md5': 'File MD5',
-                          'file_size': 'File Size',
-                          'biological_replicate': 'Biological Replicate',
-                          'technical_replicate': 'Technical Replicate'})
+                          'file_size': 'File Size'})
 
 
 class RawFile(SeqFile):
@@ -126,10 +108,6 @@ class RawFile(SeqFile):
     >>> f = RawFile('ENCFF037JQC')
     >>> str(f.exp)
     '/experiments/ENCSR362AIZ/'
-    >>> f.biological_replicate
-    1
-    >>> f.technical_replicate
-    1
     >>> str(f.file_type)
     'fastq'
     >>> str(f.status)
@@ -164,10 +142,6 @@ class ProcessedFile(SeqFile):
     >>> f = ProcessedFile('ENCFF281ENU')
     >>> str(f.exp)
     '/experiments/ENCSR362AIZ/'
-    >>> f.biological_replicate
-    2
-    >>> f.technical_replicate
-    1
     >>> str(f.file_type)
     'bam'
     >>> str(f.status)
