@@ -1,6 +1,6 @@
 import sys
 import os
-import msgpack
+
 try:
     from string import maketrans
 except ImportError:
@@ -47,6 +47,7 @@ def dna_to_rna(fa, strand='+', tou=False):
 
 
 def load_codon_table(seq_type):
+    import msgpack
     dir_path = os.path.dirname(os.path.abspath(__file__))
     table_f = os.path.join(dir_path, 'data/%s_codon.msg' % seq_type)
     with open(table_f, 'rb') as f:
