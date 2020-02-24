@@ -11,6 +11,7 @@
 * [parse](https://github.com/kepbod/seqlib/blob/master/seqlib/parse.py) -- parse reference files
 * [path](https://github.com/kepbod/seqlib/blob/master/seqlib/path.py) -- path relevant functions
 * [seq](https://github.com/kepbod/seqlib/blob/master/seqlib/seq.py) -- convert sequences
+* [sam](](https://github.com/kepbod/seqlib/blob/master/seqlib/sam.py) -- SAM/BAM file relevant functions
 
 ## Available scripts
 * [extract_junc.py](https://github.com/kepbod/seqlib/blob/master/bin/extract_junc.py) -- extract junctions from BAM files
