@@ -11,7 +11,7 @@
 * [parse](https://github.com/kepbod/seqlib/blob/master/seqlib/parse.py) -- parse reference files
 * [path](https://github.com/kepbod/seqlib/blob/master/seqlib/path.py) -- path relevant functions
 * [seq](https://github.com/kepbod/seqlib/blob/master/seqlib/seq.py) -- convert sequences
-* [sam](](https://github.com/kepbod/seqlib/blob/master/seqlib/sam.py) -- SAM/BAM file relevant functions
+* [sam](https://github.com/kepbod/seqlib/blob/master/seqlib/sam.py) -- SAM/BAM file relevant functions
 
 ## Available scripts
 * [extract_junc.py](https://github.com/kepbod/seqlib/blob/master/bin/extract_junc.py) -- extract junctions from BAM files
@@ -19,5 +19,5 @@
 * [fetch_geoinfo.py](https://github.com/kepbod/seqlib/blob/master/bin/fetch_geoinfo.py) -- extract GEO information
 
 ## License 
-Copyright (C) 2016-2019 Xiao-Ou Zhang and contributors. See the [LICENSE](https://github.com/kepbod/seqlib/blob/master/LICENSE) file for
+Copyright (C) Xiao-Ou Zhang and contributors. See the [LICENSE](https://github.com/kepbod/seqlib/blob/master/LICENSE) file for
 license rights and limitations (MIT)
