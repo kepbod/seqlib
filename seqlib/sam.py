@@ -29,6 +29,8 @@ def parse_MD_iter(md_tag, return_base=False):
             yield (length, 'D', base) if return_base else (length, 'D')
         else:
             length = len(s)
+            if length == 0:
+                continue
             yield (length, 'U', s) if return_base else (length, 'U')
 
 
@@ -37,6 +39,8 @@ def parse_MD(md_tag, return_base=False):
     parse MD tag
     >>> parse_MD('272^A2G1G257')
     [(272, 'M'), (1, 'D'), (2, 'M'), (1, 'U'), (1, 'M'), (1, 'U'), (257, 'M')]
+    >>> parse_MD('92T1^CA0C380')
+    [(92, 'M'), (1, 'U'), (1, 'M'), (2, 'D'), (1, 'U'), (380, 'M')]
     '''
     return list(parse_MD_iter(md_tag, return_base))
 
