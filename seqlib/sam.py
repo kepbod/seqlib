@@ -2,6 +2,7 @@
 Functions and classes related to SAM/BAM file
 '''
 
+import sys
 import re
 from itertools import groupby
 
@@ -84,7 +85,7 @@ def convert_CIGAR(cigar_str, md_str):
         cigar_tag = cigar[i][1]
         md_base = md[j][0] + reference_base
         md_tag = md[j][1]
-        if cigar_tag in ['S', 'H', 'I']:
+        if cigar_tag in ('S', 'H', 'I'):
             aln.append((cigar_base, cigar_tag))
             i += 1
             continue
@@ -112,6 +113,73 @@ def convert_CIGAR(cigar_str, md_str):
         cigar_tag = cigar[i][1]
         aln.append((cigar_base, cigar_tag))
     return aln
+
+
+def count_alignment_length(cigar_str, read_length=False):
+    '''
+    Count reference covered length for reads
+    >>> count_alignment_length('63M1D308M1U1M1U2M1U1U1U285M648S')
+    665
+    >>> count_alignment_length('666H540M106H')
+    540
+    >>> count_alignment_length('66S54M3I5U5D2M106H')
+    66
+    >>> count_alignment_length('66S54M3I5U5D2M106H', read_length=True)
+    236
+    '''
+    total_length = 0
+    for counts, tag in parse_CIGAR_iter(cigar_str):
+        if tag in ('M', 'U'):
+            total_length += counts
+        if not read_length and tag in ('D', 'N'):
+            total_length += counts
+        if read_length and tag in ('I', 'S', 'H'):
+            total_length += counts
+    return total_length
+
+
+def sub_alignment(cigar_str, start, total=None):
+    '''
+    Substract alignments according to position
+    >>> sub_alignment('15S34M1I2M3U5D3M1I5M5H', 38, 9)
+    '1U5D3M1I'
+    >>> sub_alignment('15S34M1I2M3U5D3M1I5M5H', 0, 37)
+    '15S34M1I2M1U'
+    >>> sub_alignment('15S34M1I2M3U5D3M1I5M5H', 38)
+    '1U5D3M1I5M5H'
+    >>> sub_alignment('15S34M1I2M3U5D3M1I5M5H', 34)
+    '1I2M3U5D3M1I5M5H'
+    '''
+    sub_cigar = ''
+    index_start, index_end = 0, 0
+    move_flag = False
+    if total is None:
+        end = sys.maxsize
+    else:
+        end = start + total
+    for counts, tag in parse_CIGAR_iter(cigar_str):
+        if tag in ('M', 'U', 'D', 'N'):
+            index_start = index_end
+            index_end += counts
+            move_flag = True
+        if start <= index_end <= end:
+            if move_flag:
+                move_flag = False
+                if index_start < start:
+                    n = counts - (start - index_start)
+                elif start <= index_start:
+                    n = counts
+            else:
+                n = counts
+            sub_cigar += '{}{}'.format(n, tag) if n else ''
+        elif index_start < end < index_end:
+            if index_start < start:
+                n = end - start
+            elif start <= index_start:
+                n = counts - (index_end - end)
+            sub_cigar += '{}{}'.format(n, tag) if n else ''
+            break
+    return sub_cigar
 
 
 if __name__ == '__main__':
