@@ -51,7 +51,7 @@ def load_codon_table(seq_type):
     dir_path = os.path.dirname(os.path.abspath(__file__))
     table_f = os.path.join(dir_path, 'data/%s_codon.msg' % seq_type)
     with open(table_f, 'rb') as f:
-        table = msgpack.unpackb(f.read(), encoding='utf-8')
+        table = msgpack.unpackb(f.read(), raw=False)
     return table
 
 
