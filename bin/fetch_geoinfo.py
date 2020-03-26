@@ -34,7 +34,7 @@ def main():
     # get GSE NUMBER
     gse_num = options['<GSE_NUM>']
     # check GSE NUMBER
-    gse_pattern = re.compile('GSE\d{3,}')
+    gse_pattern = re.compile(r'GSE\d{3,}')
     if not gse_pattern.match(gse_num):
         sys.exit('Error: <GSE_NUM> should be in correct format!')
     # set up MINiML url
@@ -45,7 +45,7 @@ def main():
     # store xml file
     try:  # try using ftp
         zipped_xml, _ = urlretrieve('ftp://' + info_xml_url)
-    except:  # ftp connection failed, using http
+    except Exception:  # ftp connection failed, using http
         zipped_xml, _ = urlretrieve('http://' + info_xml_url)
     # parse xml
     xml_file = tarfile.open(zipped_xml).extractfile(info_xml_name)
@@ -82,11 +82,13 @@ def fetch_sra(sra_page, url_flag=False):
                 sra_num_info, read_info = row.find_all('td')[:2]
                 sra_num = sra_num_info.string
                 if url_flag:
-                    sra_url = sra_url_template % (sra_num[:6], sra_num, sra_num)
-                    sra_info.append('\t'.join([sra_num, read_info.string, sra_url]))
+                    sra_url = sra_url_template % (sra_num[:6], sra_num,
+                                                  sra_num)
+                    sra_info.append('\t'.join([sra_num, read_info.string,
+                                               sra_url]))
                 else:
                     sra_info.append('\t'.join([sra_num, read_info.string]))
-            except:
+            except Exception:
                 continue
     return '\t'.join(sra_info)
 
