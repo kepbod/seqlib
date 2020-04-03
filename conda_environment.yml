@@ -1,0 +1,28 @@
+name: seqlib
+channels:
+  - conda-forge
+  - defaults
+  - r
+  - bioconda
+dependencies:
+  - bedtools
+  - ucsc-bedtobigbed
+  - ucsc-bedgraphtobigwig
+  - pysam>=0.8.4
+  - pybedtools>=0.7.8
+  - pip:
+    - future
+    - requests
+    - msgpack-python
+    - docopt
+    - beautifulsoup4
+    - lxml
+    - cython
+    - pandas
+    - pysam>=0.8.4
+    - pybedtools>=0.7.8
+    - pytest
+    - pytest-cov
+    - pytest-flake8
+    - pytest-helpers-namespace
+    - codecov
