@@ -5,25 +5,23 @@ channels:
   - r
   - bioconda
 dependencies:
+  - future
+  - requests
+  - cython
+  - pandas
   - bedtools
   - ucsc-bedtobigbed
   - ucsc-bedgraphtobigwig
   - pysam>=0.8.4
   - pybedtools>=0.7.8
+  - msgpack-python
+  - docopt
+  - beautifulsoup4
+  - lxml
+  - pytest
+  - pytest-cov
+  - pytest-flake8
   - pip
   - pip:
-    - future
-    - requests
-    - msgpack-python
-    - docopt
-    - beautifulsoup4
-    - lxml
-    - cython
-    - pandas
-    - pysam>=0.8.4
-    - pybedtools>=0.7.8
-    - pytest
-    - pytest-cov
-    - pytest-flake8
     - pytest-helpers-namespace
     - codecov
