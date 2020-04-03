@@ -30,6 +30,7 @@ jobs:
         environment-file: conda_environment.yml
         python-version: ${{ matrix.python-version }}
         miniconda-version: 'latest'
+        auto-update-conda: true
     - name: Test with pytest
       run: |
         make test
