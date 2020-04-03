@@ -1,0 +1,37 @@
+# This workflow will install Python dependencies, run tests and lint with a variety of Python versions
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: Build
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+
+jobs:
+  build:
+
+    runs-on: ${{matrix.os}}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macOS-latest] 
+        python-version: [3.5, 3.6, 3.7, 3.8]
+        
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up conda environment ${{ matrix.python-version }} on ${{matrix.os}}
+      uses: goanpeca/setup-miniconda@v1
+      with:
+        activate-environment: seqlib
+        environment-file: conda_environment.yml
+        python-version: ${{ matrix.python-version }}
+        miniconda-version: 'latest'
+    - name: Test with pytest
+      run: |
+        make test
+    - name: Upload coverage to Codecov  
+      uses: codecov/codecov-action@v1
