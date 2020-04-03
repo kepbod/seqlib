@@ -31,6 +31,7 @@ jobs:
         python-version: ${{ matrix.python-version }}
         miniconda-version: 'latest'
         auto-update-conda: true
+        auto-activate-base: false
     - name: Test with pytest
       run: |
         make test
