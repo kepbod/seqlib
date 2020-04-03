@@ -21,7 +21,7 @@ dependencies:
   - pytest
   - pytest-cov
   - pytest-flake8
-  - pip
+  - codecov
   - pip:
     - pytest-helpers-namespace
-    - codecov
+
