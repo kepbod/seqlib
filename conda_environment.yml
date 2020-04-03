@@ -10,6 +10,7 @@ dependencies:
   - ucsc-bedgraphtobigwig
   - pysam>=0.8.4
   - pybedtools>=0.7.8
+  - pip
   - pip:
     - future
     - requests
