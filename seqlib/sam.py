@@ -8,7 +8,8 @@ from itertools import groupby
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 __all__ = ['convert_cigar_digit', 'parse_MD_iter', 'parse_MD',
-           'parse_CIGAR_iter', 'parse_CIGAR', 'convert_CIGAR']
+           'parse_CIGAR_iter', 'parse_CIGAR', 'convert_CIGAR',
+           'count_alignment_length', 'sub_alignment']
 
 
 CIGAR_DIGIT = {0: 'M', 1: 'I', 2: 'D', 3: 'N', 4: 'S', 5: 'H', 6: 'P', 7: '=',
