@@ -73,7 +73,7 @@ def fetch_sra(sra_page, url_flag=False):
     sra_info = []
     if url_flag:
         sra_url_template = 'ftp://ftp.sra.ebi.ac.uk/vol1/srr/'
-        sra_url_template += '{}/00{}/{}'
+        sra_url_template += '{}/{:03d}/{}'
     sra_html = BeautifulSoup(urlopen(sra_page).read(), 'html.parser')
     for table in sra_html.find_all('tbody'):
         for row in table.find_all('tr'):
@@ -81,7 +81,9 @@ def fetch_sra(sra_page, url_flag=False):
                 sra_num_info, read_info = row.find_all('td')[:2]
                 sra_num = sra_num_info.string
                 if url_flag:
-                    sra_url = sra_url_template.format(sra_num[:6], sra_num[9:], sra_num)
+                    sra_url = sra_url_template.format(sra_num[:6],
+                                                      int(sra_num[9:]),
+                                                      sra_num)
                     sra_info.append('\t'.join([sra_num, read_info.string,
                                                sra_url]))
                 else:
