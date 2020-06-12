@@ -3,17 +3,17 @@ Expectation maximization algorithm
 modified from SQUAREM (https://github.com/cran/SQUAREM)
 '''
 
-import sys
 import numpy as np
+import warnings
 
 
-def squarem(p0, func, *args, tol=1e-8, positive_flag=True, **kargs):
+def squarem(p0, func, *args, tol=1e-8, maxiter=1500, positive_flag=True,
+            **kargs):
     kr = 1
     stepmin = 1
     stepmax0 = 1
     stepmax = 1
     mstep = 4
-    maxiter = 1500
     n_iter = 0
     while n_iter < maxiter:
         p1 = func(p0, *args, **kargs)
@@ -66,5 +66,5 @@ def squarem(p0, func, *args, tol=1e-8, positive_flag=True, **kargs):
             stepmin = mstep * stepmin
         p0 = pnew
     else:
-        sys.exit('EM did not converge!!!')
+        warnings.warn('EM did not converge with {} iterations!'.format(n_iter))
     return p0
