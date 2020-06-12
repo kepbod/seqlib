@@ -8,7 +8,7 @@ import warnings
 
 
 def squarem(p0, func, *args, tol=1e-8, maxiter=1500, positive_flag=True,
-            **kargs):
+            verbose=False, **kargs):
     kr = 1
     stepmin = 1
     stepmax0 = 1
@@ -67,4 +67,7 @@ def squarem(p0, func, *args, tol=1e-8, maxiter=1500, positive_flag=True,
         p0 = pnew
     else:
         warnings.warn('EM did not converge with {} iterations!'.format(n_iter))
-    return p0
+    if verbose:
+        return p0, n_iter
+    else:
+        return p0
