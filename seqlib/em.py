@@ -7,8 +7,7 @@ import sys
 import numpy as np
 
 
-def squarem(p0, func, *args, positive_flag=True, **kargs):
-    tol = 1e-7
+def squarem(p0, func, *args, tol=1e-8, positive_flag=True, **kargs):
     kr = 1
     stepmin = 1
     stepmax0 = 1
@@ -23,7 +22,7 @@ def squarem(p0, func, *args, positive_flag=True, **kargs):
             break
         r1 = p1 - p0
         sqr1 = np.sqrt(np.dot(r1, r1))
-        if sqr1 < tol:
+        if sqr1 <= tol:
             p0 = p1
             break
         p2 = func(p1, *args, **kargs)
@@ -32,7 +31,7 @@ def squarem(p0, func, *args, positive_flag=True, **kargs):
             break
         r2 = p2 - p1
         sqr2 = np.sqrt(np.dot(r2, r2))
-        if sqr2 < tol:
+        if sqr2 <= tol:
             p0 = p2
             break
         v = r2 - r1
