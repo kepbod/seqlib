@@ -7,7 +7,7 @@ import sys
 import numpy as np
 
 
-def squarem(p0, func, *args, **kargs):
+def squarem(p0, func, *args, positive_flag=True, **kargs):
     tol = 1e-7
     kr = 1
     stepmin = 1
@@ -40,8 +40,9 @@ def squarem(p0, func, *args, **kargs):
         alpha = sqr1 / sqv
         alpha = max(stepmin, min(stepmax, alpha))
         pnew = p0 + 2 * alpha * r1 + alpha**2 * v
-        # ! pnew should be positive
-        pnew[pnew < 0] = 0
+        if positive_flag:
+            # ! pnew should be positive
+            pnew[pnew < 0] = 0
         if abs(alpha - 1) > 0.01:
             ptmp = func(pnew, *args, **kargs)
             n_iter += 1
