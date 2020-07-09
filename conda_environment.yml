@@ -18,6 +18,7 @@ dependencies:
   - docopt
   - beautifulsoup4
   - lxml
+  - coverage
   - pytest
   - pytest-cov
   - pytest-flake8
