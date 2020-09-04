@@ -59,13 +59,18 @@ def parse_CIGAR_iter(cigar_str):
         yield (counts, tag)
 
 
-def parse_CIGAR(cigar_str):
+def parse_CIGAR(cigar_str, reverse=False):
     '''
     parse CIGAR
     >>> parse_CIGAR('11S23M1D35M6S')
     [(11, 'S'), (23, 'M'), (1, 'D'), (35, 'M'), (6, 'S')]
+    >>> parse_CIGAR('11S23M1D35M6S', reverse=True)
+    [(6, 'S'), (35, 'M'), (1, 'D'), (23, 'M'), (11, 'S')]
     '''
-    return list(parse_CIGAR_iter(cigar_str))
+    if reverse:
+        return list(parse_CIGAR_iter(cigar_str))[::-1]
+    else:
+        return list(parse_CIGAR_iter(cigar_str))
 
 
 def convert_CIGAR(cigar_str, md_str):
