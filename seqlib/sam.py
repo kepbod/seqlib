@@ -73,12 +73,15 @@ def parse_CIGAR(cigar_str, reverse=False):
         return list(parse_CIGAR_iter(cigar_str))
 
 
-def convert_CIGAR(cigar_str, md_str):
+def convert_CIGAR(cigar_str, md_str, reverse=False):
     '''
     conver CIGAR with mismatches
     >>> aln = convert_CIGAR('6S271M1I4M2D253M8S', '273T1^CA0C252')
     >>> ''.join('{}{}'.format(x[0], x[1]) for x in aln)
     '6S271M1I2M1U1M2D1U252M8S'
+    >>> aln = convert_CIGAR('6S271M1I4M2D253M8S', '273T1^CA0C252', reverse=True)
+    >>> ''.join('{}{}'.format(x[0], x[1]) for x in aln)
+    '8S252M1U2D1M1U2M1I271M6S'
     '''
     cigar = parse_CIGAR(cigar_str)
     md = parse_MD(md_str)
@@ -118,7 +121,10 @@ def convert_CIGAR(cigar_str, md_str):
         cigar_base = cigar[i][0]
         cigar_tag = cigar[i][1]
         aln.append((cigar_base, cigar_tag))
-    return aln
+    if reverse:
+        return aln[::-1]
+    else:
+        return aln
 
 
 def count_alignment_length(cigar_str, read_length=False):
