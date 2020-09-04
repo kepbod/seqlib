@@ -9,7 +9,7 @@ from itertools import groupby
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 __all__ = ['convert_cigar_digit', 'parse_MD_iter', 'parse_MD',
            'parse_CIGAR_iter', 'parse_CIGAR', 'convert_CIGAR',
-           'count_alignment_length', 'sub_alignment']
+           'count_alignment_length', 'index_alignment', 'sub_alignment']
 
 
 CIGAR_DIGIT = {0: 'M', 1: 'I', 2: 'D', 3: 'N', 4: 'S', 5: 'H', 6: 'P', 7: '=',
@@ -137,6 +137,26 @@ def count_alignment_length(cigar_str, read_length=False):
         if read_length and tag in ('I', 'S', 'H'):
             total_length += counts
     return total_length
+
+
+def index_alignment(cigar_str):
+    '''
+    Find index of alignment in the read
+    >>> index_alignment('404M843S')
+    (0, 404)
+    >>> index_alignment('879H368M')
+    (879, 1247)
+    >>> index_alignment('365S144M1I3M1I27M1I291M1D1U8M405S')
+    (365, 842)
+    '''
+    start_index, end_index = 0, 0
+    for n, (counts, tag) in enumerate(parse_CIGAR_iter(cigar_str)):
+        if tag in ('S', 'H') and n == 0:
+            start_index += counts
+            end_index += counts
+        if tag in ('M', 'U', 'I'):
+            end_index += counts
+    return (start_index, end_index)
 
 
 def sub_alignment(cigar_str, start, total=None):
