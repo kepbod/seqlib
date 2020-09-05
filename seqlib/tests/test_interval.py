@@ -26,7 +26,7 @@ class TestInterval(unittest.TestCase):
 
     def testLen(self):
         a = Interval(self.a)
-        self.assertEquals(len(a), 4, 'Failed in length')
+        self.assertEquals(len(a), 3, 'Failed in length')
         b = Interval(self.b)
         self.assertEquals(len(b), 3, 'Fbiled in length')
 
