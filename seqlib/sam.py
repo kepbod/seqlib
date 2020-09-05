@@ -79,7 +79,8 @@ def convert_CIGAR(cigar_str, md_str, reverse=False):
     >>> aln = convert_CIGAR('6S271M1I4M2D253M8S', '273T1^CA0C252')
     >>> ''.join('{}{}'.format(x[0], x[1]) for x in aln)
     '6S271M1I2M1U1M2D1U252M8S'
-    >>> aln = convert_CIGAR('6S271M1I4M2D253M8S', '273T1^CA0C252', reverse=True)
+    >>> aln = convert_CIGAR('6S271M1I4M2D253M8S', '273T1^CA0C252',
+    ...                     reverse=True)
     >>> ''.join('{}{}'.format(x[0], x[1]) for x in aln)
     '8S252M1U2D1M1U2M1I271M6S'
     '''

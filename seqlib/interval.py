@@ -63,6 +63,13 @@ class Interval(object):
             tmp.append(a)
             self.interval = tmp
 
+    def __len__(self):
+        '''
+        Usage: len(c)
+        length of interval c
+        '''
+        return len(self.interval)
+
     def __add__(self, interval):
         '''
         Usage: c = a + b or a += b

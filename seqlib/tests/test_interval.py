@@ -24,6 +24,12 @@ class TestInterval(unittest.TestCase):
                                           [17, 25, 'b', 'd'], [30, 35, 'e']],
                              'Failed in initiation')
 
+    def testLen(self):
+        a = Interval(self.a)
+        self.assertEquals(len(a), 4, 'Failed in length')
+        b = Interval(self.b)
+        self.assertEquals(len(b), 3, 'Fbiled in length')
+
     def testAdd(self):
         self.a = Interval(self.a)  # self.a is an instance
         c = self.a + self.b
