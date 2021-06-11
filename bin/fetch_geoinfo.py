@@ -62,10 +62,13 @@ def main():
             gsm_num = sample['iid']
             f.write(gsm_num + '\t')
             if url_flag:
-                f.write(url_prefix + gsm_num + '\t')
-            f.write(sample.Title.string + '\t')
-            sra_page = sample.find('Relation', type='SRA')['target']
-            f.write(fetch_sra(sra_page, url_flag=url_flag))
+                f.write(url_prefix + gsm_num)
+            f.write(sample.Title.string)
+            try:
+                sra_page = sample.find('Relation', type='SRA')['target']
+                f.write('\t' + fetch_sra(sra_page, url_flag=url_flag))
+            except Exception:
+                continue
             f.write('\n')
 
 
