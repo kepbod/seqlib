@@ -4,8 +4,10 @@ Some help functions and classes
 
 import sys
 import os
-import requests
 import hashlib
+import requests
+import joblib
+import contextlib
 
 __author__ = 'Xiao-Ou Zhang <kepbod@gmail.com>'
 __all__ = ['check_option', 'run_command', 'download_file', 'check_md5']
@@ -45,6 +47,26 @@ def check_md5(local_file, md5):
     Check MD5.
     '''
     return hashlib.md5(open(local_file, 'rb').read()).hexdigest() == md5
+
+
+@contextlib.contextmanager
+def tqdm_joblib(tqdm_object):
+    ''' 
+    Create a joblib-compatible context manager with a progress bar attached.
+    https://stackoverflow.com/a/58936697
+    ''' 
+    class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
+        def __call__(self, *args, **kwargs):
+            tqdm_object.update(n=self.batch_size)
+            return super().__call__(*args, **kwargs)
+
+    old_batch_callback = joblib.parallel.BatchCompletionCallBack
+    joblib.parallel.BatchCompletionCallBack = TqdmBatchCompletionCallback
+    try:
+        yield tqdm_object
+    finally:
+        joblib.parallel.BatchCompletionCallBack = old_batch_callback
+        tqdm_object.close()
 
 
 if __name__ == '__main__':
