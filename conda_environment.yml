@@ -18,6 +18,7 @@ dependencies:
   - docopt
   - beautifulsoup4
   - lxml
+  - joblib
   - coverage
   - pytest
   - pytest-cov
