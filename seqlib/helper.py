@@ -51,10 +51,10 @@ def check_md5(local_file, md5):
 
 @contextlib.contextmanager
 def tqdm_joblib(tqdm_object):
-    ''' 
+    '''
     Create a joblib-compatible context manager with a progress bar attached.
     https://stackoverflow.com/a/58936697
-    ''' 
+    '''
     class TqdmBatchCompletionCallback(joblib.parallel.BatchCompletionCallBack):
         def __call__(self, *args, **kwargs):
             tqdm_object.update(n=self.batch_size)
