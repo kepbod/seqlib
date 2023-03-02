@@ -62,7 +62,7 @@ def main():
             gsm_num = sample['iid']
             f.write(gsm_num + '\t')
             if url_flag:
-                f.write(url_prefix + gsm_num)
+                f.write(url_prefix + gsm_num + '\t')
             f.write(sample.Title.string)
             try:
                 sra_page = sample.find('Relation', type='SRA')['target']
